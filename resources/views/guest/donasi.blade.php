@@ -114,7 +114,7 @@
         <div class="container">
             <div class="row g-5 align-items-center">
                 <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
-                    <div class="d-inline-block rounded-pill bg-secondary text-primary py-1 px-3 mb-3">Donate Now</div>
+                    <div class="d-inline-block rounded-pill bg-secondary text-primary py-1 px-3 mb-3">Donasi sekarang</div>
                     <h1 class="display-6 mb-5">Terima Kasih Atas Hasil Yang Dicapai Bersama Anda</h1>
                     <p class="mb-0"></p>
                 </div>
