@@ -4,52 +4,64 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\PendaftarBantuan;
+use App\Http\Controllers\PendaftarBantuanController;
 
-class PendaftarBantuanController extends Controller
-{
-    // ✅ Menampilkan daftar pendaftar (riwayat donasi)
+class PendaftarBantuanController extends Controller{
+     public function about() {
+    return view('guest.daftar.about');
+}
+    public function home() {
+    return view('guest.daftar.home');
+}
     public function index()
     {
-        $warga = PendaftarBantuan::all();
-        return view('guest.edit', compact('warga'));
+        $data = PendaftarBantuan::all();
+        return view('guest.daftar.index', compact('data'));
     }
-
-    // ✅ Tampilkan form donasi
+    
     public function create()
     {
-        return view('guest.donasi');
+        return view('guest.daftar.create');
     }
 
-    // ✅ Simpan data baru dari form donasi
+
     public function store(Request $request)
     {
-        // dd($request->all());
-        $validated = $request->validate([
-            'program_id' => 'required|integer',
-            'warga_id' => 'required|integer',
-            'status_seleksi' => 'nullable|string|max:100',
+        $request->validate([
+            'program_id' => 'required|numeric',
+            'warga_id' => 'required|numeric',
+            'status_seleksi' => 'nullable|string',
         ]);
 
-        $pendaftar = PendaftarBantuan::create($validated);
-
-        // Redirect ke halaman riwayat (index)
-        return redirect()->route('donasi.index')->with('success', 'Data berhasil disimpan!');
+        PendaftarBantuan::create($request->all());
+        return redirect()->route('index')->with('success', 'Data berhasil ditambahkan!');
     }
 
-    // ✅ Tampilkan form edit untuk satu data
-        public function edit(string $id)
-        {
-           $warga = PendaftarBantuan::find($id);
-    return view('guest.editdata', compact('warga'));
-        }
+    public function edit($id)
+    {
+        $data = PendaftarBantuan::findOrFail($id);
+        return view('guest.daftar.edit', compact('data'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'program_id' => 'required|numeric',
+            'warga_id' => 'required|numeric',
+            'status_seleksi' => 'nullable|string',
+        ]);
+
+        $data = PendaftarBantuan::findOrFail($id);
+        $data->update($request->all());
+
+        return redirect()->route('index')->with('success', 'Data berhasil diperbarui!');
+    }
 
     public function destroy($id)
     {
-        // Cari data berdasarkan ID
-        $donasi = PendaftaranBantuan::findOrFail($id);
-        // Hapus data
-        $donasi->delete();
-        // Redirect dengan pesan sukses
-        return redirect()->route('donasi.index')->with('success', 'Data donasi berhasil dihapus!');
+        $data = PendaftarBantuan::findOrFail($id);
+        $data->delete();
+
+        return redirect()->route('index')->with('success', 'Data berhasil dihapus!');
     }
 }

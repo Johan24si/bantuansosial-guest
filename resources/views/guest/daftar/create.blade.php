@@ -9,26 +9,26 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="{{asset('assets/img/favicon.ico')}}" rel="icon">
+    <link href="assets/img/favicon.ico" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Saira:wght@500;600;700&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Saira:wght@500;600;700&display=swap" rel="stylesheet">
 
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="{{ asset('assets/lib/animate/animate.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
+    <link href="assets/assets/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="assets/assets/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="{{ asset('assets/css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="{{asset('assets/css/style.css')}}" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -64,14 +64,14 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto p-4 p-lg-0">
-                    <a href="index.html" class="nav-item nav-link">Home</a>
+                    <a href="home" class="nav-item nav-link">Home</a>
                     <a href="about.html" class="nav-item nav-link">About</a>
                     <a href="causes.html" class="nav-item nav-link">Causes</a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Pages</a>
                         <div class="dropdown-menu m-0">
                             <a href="service.html" class="dropdown-item">Service</a>
-                            <a href="donate.html" class="dropdown-item active">donasi</a>
+                            <a href="donate.html" class="dropdown-item active">Donate</a>
                             <a href="team.html" class="dropdown-item">Our Team</a>
                             <a href="testimonial.html" class="dropdown-item">Testimonial</a>
                             <a href="404.html" class="dropdown-item">404 Page</a>
@@ -96,12 +96,12 @@
     <!-- Page Header Start -->
     <div class="container-fluid page-header mb-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container text-center">
-            <h1 class="display-4 text-white animated slideInDown mb-4">Donasi</h1>
+            <h1 class="display-4 text-white animated slideInDown mb-4">Tambah data</h1>
             <nav aria-label="breadcrumb animated slideInDown">
                 <ol class="breadcrumb justify-content-center mb-0">
                     <li class="breadcrumb-item"><a class="text-white" href="#">Home</a></li>
                     <li class="breadcrumb-item"><a class="text-white" href="#">Pages</a></li>
-                    <li class="breadcrumb-item text-primary active" aria-current="page">Donasi</li>
+                    <li class="breadcrumb-item text-primary active" aria-current="page">Tambah data</li>
                 </ol>
             </nav>
         </div>
@@ -120,77 +120,31 @@
                 </div>
                 <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
                     <div class="h-100 bg-secondary p-5">
-                       <form action="{{ route('donasi.store') }}" method="POST">
-    @csrf
-    <div class="row g-3">
-        <!-- program_id -->
-        <div class="col-12">
-            <div class="form-floating">
-                <input 
-                    type="text" 
-                    name="program_id" 
-                    class="form-control bg-light border-0" 
-                    id="program_id" 
-                    placeholder="Program ID" 
-                    value="{{ $warga->program_id }}"
-                    required
-                >
-                <label for="program_id">Program ID</label>
-            </div>
+                        <form action="{{ route('store') }}" method="POST">
+        @csrf
+        <div class="mb-3">
+            <label>Program ID</label>
+            <input type="number" name="program_id" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Warga ID</label>
+            <input type="number" name="warga_id" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Status Seleksi</label>
+            <input type="text" name="status_seleksi" class="form-control">
         </div>
 
-        <!-- warga_id -->
-        <div class="col-12">
-            <div class="form-floating">
-                <input 
-                    type="text" 
-                    name="warga_id" 
-                    class="form-control bg-light border-0" 
-                    id="warga_id" 
-                    placeholder="Warga ID" 
-                   value="{{$warga->warga_id}}"
-                    required
-                >
-                <label for="warga_id">Warga ID</label>
-            </div>
-        </div>
-
-        <!-- status_seleksi -->
-        <div class="col-12">
-            <div class="form-floating">
-                <select 
-                    name="status_seleksi" 
-                    id="status_seleksi" 
-                    class="form-select bg-light border-0"
-                    required
-                >
-                    <option value="" disabled {{ old('status_seleksi') ? '' : 'selected' }}>-- Pilih Status Seleksi --</option>
-                    <option value="diterima" {{ old('status_seleksi') == 'diterima' ? 'selected' : '' }}>Diterima</option>
-                    <option value="ditolak" {{ old('status_seleksi') == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
-                    <option value="menunggu" {{ old('status_seleksi') == 'menunggu' ? 'selected' : '' }}>Menunggu</option>
-                </select>
-                <label for="status_seleksi">Status Seleksi</label>
-            </div>
-        </div>
-
-        <!-- Tombol submit -->
-        <div class="col-12">
-            <button class="btn btn-primary px-5" style="height: 60px;">
-                Simpan Data
-                <div class="d-inline-flex btn-sm-square bg-white text-primary rounded-circle ms-2">
-                    <i class="fa fa-arrow-right"></i>
-                </div>
-            </button>
-        </div>
-    </div>
-</form>
+        <button class="btn btn-success">Simpan</button>
+        <a href="{{ route('index') }}" class="btn btn-secondary">Kembali</a>
+    </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- Donate End -->
-        
+
 
     <!-- Footer Start -->
     <div class="container-fluid bg-dark text-white-50 footer mt-5 pt-5 wow fadeIn" data-wow-delay="0.1s">
@@ -254,14 +208,14 @@
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{asset('assets/lib/wow/wow.min.js')}}"></script>
-    <script src="{{asset('assets/lib/easing/easing.min.js')}}"></script>
-    <script src="{{asset('assets/lib/waypoints/waypoints.min.js')}}"></script>
-    <script src="{{asset('assets/lib/owlcarousel/owl.carousel.min.js')}}"></script>
-    <script src="{{asset('assets/lib/parallax/parallax.min.js')}}"></script>
+    <script src="assets/lib/wow/wow.min.js"></script>
+    <script src="assets/lib/easing/easing.min.js"></script>
+    <script src="assets/lib/waypoints/waypoints.min.js"></script>
+    <script src="assets/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="assets/lib/parallax/parallax.min.js"></script>
 
     <!-- Template Javascript -->
-    <script src="{{asset('assets/js/main.js')}}"></script>
+    <script src="assets/js/main.js"></script>
 </body>
 
 </html>

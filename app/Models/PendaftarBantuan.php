@@ -9,8 +9,10 @@ class PendaftarBantuan extends Model
 {
     use HasFactory;
 
-    protected $table = 'pendaftar_bantuan'; // pastikan nama tabel benar
+    protected $table = 'pendaftar_bantuan';
     protected $primaryKey = 'pendaftar_id';
+    public $timestamps = true;
+
     protected $fillable = [
         'program_id',
         'warga_id',

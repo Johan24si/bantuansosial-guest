@@ -14,15 +14,15 @@
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Saira:wght@500;600;700&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Saira:wght@500;600;700&display=swap" rel="stylesheet">
 
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="assets/lib/animate/animate.min.css" rel="stylesheet">
-    <link href="assets/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="assets/assets/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="assets/assets/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
@@ -64,14 +64,14 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto p-4 p-lg-0">
-                    <a href="index.html" class="nav-item nav-link">Home</a>
+                    <a href="home" class="nav-item nav-link">Home</a>
                     <a href="about.html" class="nav-item nav-link">About</a>
                     <a href="causes.html" class="nav-item nav-link">Causes</a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Pages</a>
                         <div class="dropdown-menu m-0">
                             <a href="service.html" class="dropdown-item">Service</a>
-                            <a href="donate.html" class="dropdown-item active">donasi</a>
+                            <a href="donate.html" class="dropdown-item active">Data Warga</a>
                             <a href="team.html" class="dropdown-item">Our Team</a>
                             <a href="testimonial.html" class="dropdown-item">Testimonial</a>
                             <a href="404.html" class="dropdown-item">404 Page</a>
@@ -96,12 +96,12 @@
     <!-- Page Header Start -->
     <div class="container-fluid page-header mb-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container text-center">
-            <h1 class="display-4 text-white animated slideInDown mb-4">donasi</h1>
+            <h1 class="display-4 text-white animated slideInDown mb-4">Data Warga</h1>
             <nav aria-label="breadcrumb animated slideInDown">
                 <ol class="breadcrumb justify-content-center mb-0">
                     <li class="breadcrumb-item"><a class="text-white" href="#">Home</a></li>
                     <li class="breadcrumb-item"><a class="text-white" href="#">Pages</a></li>
-                    <li class="breadcrumb-item text-primary active" aria-current="page">donasi</li>
+                    <li class="breadcrumb-item text-primary active" aria-current="page">Data Warga</li>
                 </ol>
             </nav>
         </div>
@@ -120,54 +120,56 @@
                 </div>
                 <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
                     <div class="h-100 bg-secondary p-5">
-                        <form>
-                            <div class="container mt-5">
-    <h2>Data Pendaftar Bantuan</h2>
+                       <h2>Data Warga</h2>
+
+ <h3>Data Warga</h3>
+
+    <a href="{{ route('warga.create') }}" class="btn btn-primary mb-3">+ Tambah Warga</a>
 
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Program ID</th>
-                <th>Warga ID</th>
-                <th>Status Seleksi</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($warga as $item)
-                <tr>
-                    <td>{{ $item->program_id }}</td>
-                    <td>{{ $item->warga_id }}</td>
-                    <td>{{ $item->status_seleksi }}</td>
-                    <td>
-                       <a href="{{ route('donasi.edit', $item) }}" class="btn btn-warning btn-sm">Add</a>    
-                            <form action="{{ route('donasi.destroy', $item) }}" method="POST"
-                                onsubmit="return confirm('Hapus data ini?')" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn btn-sm btn-danger">
-                                    <i class="fa fa-trash"></i>
-                                </button>
-                            </form>
+    <table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>No KTP</th>
+            <th>Nama</th>
+            <th>JK</th>
+            <th>Telp</th>
+            <th>Email</th>
+            <th width="140px">Aksi</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($data as $w)
+        <tr>
+            <td>{{ $w->no_ktp }}</td>
+            <td>{{ $w->nama }}</td>
+            <td>{{ $w->jenis_kelamin }}</td>
+            <td>{{ $w->telp }}</td>
+            <td>{{ $w->email }}</td>
+            <td>
+                <a href="{{ route('warga.edit', $w->warga_id) }}" class="btn btn-warning btn-sm">Edit</a>
 
-                        </td>
-
-            @endforeach
-        </tbody>
-    </table>
-</div>
-                        </form>
+                <form action="{{ route('warga.delete', $w->warga_id) }}" method="POST" style="display:inline">
+                    @csrf
+                    @method('DELETE')
+                    <button class="btn btn-danger btn-sm"
+                        onclick="return confirm('Yakin hapus data?')">Hapus</button>
+                </form>
+            </td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- Donate End -->
-        
+
 
     <!-- Footer Start -->
     <div class="container-fluid bg-dark text-white-50 footer mt-5 pt-5 wow fadeIn" data-wow-delay="0.1s">

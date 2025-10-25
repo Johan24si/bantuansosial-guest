@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DataWargaController;
 use App\Http\Controllers\PendaftarBantuanController;
 
 // Route login
@@ -9,13 +10,43 @@ Route::get('/auth', [AuthController::class, 'index']);
 Route::post('/auth/login', [AuthController::class, 'login']);
 
 // Halaman utama
-Route::get('/home', function() {
-    return view('guest.index');
-})->name('index');
+//Route::get('/index', function() {
+    //return view('guest.daftar.index');
+//})->name('create');
+//Route::get('/home', function() {
+    //return view('guest.daftar.home');
+//})->name('index');
 
-// ✅ Route untuk Donasi
-Route::get('/donasi', [PendaftarBantuanController::class, 'create'])->name('donasi.create');
-Route::post('/donasi', [PendaftarBantuanController::class, 'store'])->name('donasi.store');
-Route::get('/riwayat', [PendaftarBantuanController::class, 'index'])->name('donasi.index');
-Route::get('/donasi/edit/{pendaftar_id}', [PendaftarBantuanController::class, 'edit'])->name('donasi.edit');
-Route::delete('/donasi', [DonasiController::class, 'destroy'])->name('donasi.destroy');
+//ini route guest
+Route::get('/home', [PendaftarBantuanController::class, 'home'])->name('guest.daftar.home');
+Route::get('/about', [PendaftarBantuanController::class, 'about'])->name('guest.daftar.about');
+Route::get('/index', [PendaftarBantuanController::class, 'index'])->name('index');
+Route::get('/create', [PendaftarBantuanController::class, 'create'])->name('create');
+Route::post('/store', [PendaftarBantuanController::class, 'store'])->name('store');
+Route::get('/edit/{id}', [PendaftarBantuanController::class, 'edit'])->name('edit');
+Route::post('/update/{id}', [PendaftarBantuanController::class, 'update'])->name('update');
+Route::delete('/delete/{id}', [PendaftarBantuanController::class, 'destroy'])->name('delete');
+
+
+
+//ini route data warga
+Route::get('/warga', [DataWargaController::class, 'index'])->name('warga.index');
+Route::get('/warga/create', [DataWargaController::class, 'create'])->name('warga.create');
+Route::post('/warga/store', [DataWargaController::class, 'store'])->name('warga.store');
+Route::get('/warga/edit/{id}', [DataWargaController::class, 'edit'])->name('warga.edit');
+Route::post('/warga/update/{id}', [DataWargaController::class, 'update'])->name('warga.update');
+Route::delete('/warga/delete/{id}', [DataWargaController::class, 'destroy'])->name('warga.delete');
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Route::resource('Pendaftar', PendaftarBantuanController::class);
