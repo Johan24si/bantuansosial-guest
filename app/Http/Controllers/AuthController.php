@@ -3,36 +3,39 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\AuthController;
 
 class AuthController extends Controller
 {
-    // Menampilkan halaman login
-    public function index()
+    public function showLogin()
     {
-        return view('login-form');
+        return view('Login');
     }
 
-    // Memproses form login
     public function login(Request $request)
     {
-        $username = $request->input('username');
-        $password = $request->input('password');
+        $request->validate([
+            'email' => 'required',
+            'password' => 'required'
+        ]);
 
-        // Validasi username & password wajib diisi
-        if (empty($username) || empty($password)) {
-            return redirect('/auth')->with('error', 'Username dan password wajib diisi.');
+        // Contoh login manual sederhana
+        if ($request->email === 'johan24si@mahasiswa.pcr.ac.id' && $request->password === '123') {
+            // redirect ke home
+            return redirect()->route('home');
         }
 
-        // Password minimal 3 karakter dan mengandung huruf kapital
-        if (strlen($password) < 3 || !preg_match('/[A-Z]/', $password)) {
-            return redirect('/auth')->with('error', 'Password harus minimal 3 karakter dan mengandung huruf kapital.');
-        }
-
-        // Contoh data login sederhana
-        if ($username === 'johan24si@mahasiswa.pcr.ac.id' && $password === 'Jojo') {
-            return redirect('/auth/success');
-        } else {
-            return redirect('/auth')->with('error', 'Username atau password salah.');
-        }
+        return back()->with('error', 'Username atau password salah!');
     }
+    public function register(Request $request)
+{
+    $request->validate([
+        'name' => 'required',
+        'email' => 'required|email',
+        'password' => 'required|min:3'
+    ]);
+
+    // Simulasi pendaftaran (belum ke database)
+    return back()->with('error', 'Akun berhasil dibuat! Silakan login.');
+}
 }

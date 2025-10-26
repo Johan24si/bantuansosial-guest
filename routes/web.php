@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UsersController;
 use App\Http\Controllers\DataWargaController;
 use App\Http\Controllers\PendaftarBantuanController;
 
@@ -39,7 +40,22 @@ Route::delete('/warga/delete/{id}', [DataWargaController::class, 'destroy'])->na
 
 
 
+//login
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.process');
+Route::post('/register', [AuthController::class, 'register'])->name('register.process');
 
+Route::get('/home', function () {
+    return view('guest.daftar.home');
+})->name('home');
+
+// ini route Users
+Route::get('/users', [UsersController::class, 'index'])->name('users.index');
+Route::get('/users/create', [UsersController::class, 'create'])->name('users.create');
+Route::post('/users/store', [UsersController::class, 'store'])->name('users.store');
+Route::get('/users/edit/{id}', [UsersController::class, 'edit'])->name('users.edit');
+Route::post('/users/update/{id}', [UsersController::class, 'update'])->name('users.update');
+Route::delete('/users/delete/{id}', [UsersController::class, 'destroy'])->name('users.destroy');
 
 
 

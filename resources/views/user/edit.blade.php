@@ -59,24 +59,32 @@
                 </div>
                 <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
                     <div class="h-100 bg-secondary p-5">
-                        <form action="{{ route('update', $data->pendaftar_id) }}" method="POST">
-        @csrf
+                       <h2>Edit Data User</h2>
+
+    <form action="{{ route('users.update', $user->id) }}" method="POST">
+    @csrf
+  
+    
+   
         <div class="mb-3">
-            <label>Program ID</label>
-            <input type="number" name="program_id" value="{{ $data->program_id }}" class="form-control" required>
+            <label>Nama</label>
+            <input type="text" name="name" value="{{ $user->name }}" class="form-control" required>
         </div>
+
         <div class="mb-3">
-            <label>Warga ID</label>
-            <input type="number" name="warga_id" value="{{ $data->warga_id }}" class="form-control" required>
+            <label>Email</label>
+            <input type="email" name="email" value="{{ $user->email }}" class="form-control" required>
         </div>
+
         <div class="mb-3">
-            <label>Status Seleksi</label>
-            <input type="text" name="status_seleksi" value="{{ $data->status_seleksi }}" class="form-control">
+            <label>Password <small>(Kosongkan jika tidak diubah)</small></label>
+            <input type="password" name="password" class="form-control">
         </div>
 
         <button class="btn btn-primary">Update</button>
-        <a href="{{ route('index') }}" class="btn btn-secondary">Kembali</a>
+        <a href="{{ route('users.index') }}" class="btn btn-secondary">Kembali</a>
     </form>
+
                     </div>
                 </div>
             </div>
@@ -86,7 +94,7 @@
 
 
     <!-- Footer Start -->
-    @include('layouts3.footer')
+   @include('layouts3.footer')
     <!-- Footer End -->
 
 

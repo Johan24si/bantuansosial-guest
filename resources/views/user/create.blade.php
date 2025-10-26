@@ -9,14 +9,14 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="assets/img/favicon.ico" rel="icon">
+    <link href="{{asset('assets/img/favicon.ico')}}" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Saira:wght@500;600;700&display=swap" rel="stylesheet">
 
-    @include('layouts3.css')
+   @include('layouts3.css')
 </head>
 
 <body>
@@ -35,12 +35,12 @@
     <!-- Page Header Start -->
     <div class="container-fluid page-header mb-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container text-center">
-            <h1 class="display-4 text-white animated slideInDown mb-4">Edit data</h1>
+            <h1 class="display-4 text-white animated slideInDown mb-4">Tambah data Warga</h1>
             <nav aria-label="breadcrumb animated slideInDown">
                 <ol class="breadcrumb justify-content-center mb-0">
                     <li class="breadcrumb-item"><a class="text-white" href="#">Home</a></li>
                     <li class="breadcrumb-item"><a class="text-white" href="#">Pages</a></li>
-                    <li class="breadcrumb-item text-primary active" aria-current="page">Edit data</li>
+                    <li class="breadcrumb-item text-primary active" aria-current="page">Tambah Data Warga</li>
                 </ol>
             </nav>
         </div>
@@ -59,23 +59,28 @@
                 </div>
                 <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
                     <div class="h-100 bg-secondary p-5">
-                        <form action="{{ route('update', $data->pendaftar_id) }}" method="POST">
+                         <h2>Tambah User</h2>
+
+    <form action="{{ route('users.store') }}" method="POST">
         @csrf
+
         <div class="mb-3">
-            <label>Program ID</label>
-            <input type="number" name="program_id" value="{{ $data->program_id }}" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label>Warga ID</label>
-            <input type="number" name="warga_id" value="{{ $data->warga_id }}" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label>Status Seleksi</label>
-            <input type="text" name="status_seleksi" value="{{ $data->status_seleksi }}" class="form-control">
+            <label>Nama</label>
+            <input type="text" name="name" class="form-control" required>
         </div>
 
-        <button class="btn btn-primary">Update</button>
-        <a href="{{ route('index') }}" class="btn btn-secondary">Kembali</a>
+        <div class="mb-3">
+            <label>Email</label>
+            <input type="email" name="email" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Password</label>
+            <input type="password" name="password" class="form-control" required>
+        </div>
+
+        <button class="btn btn-success">Simpan</button>
+        <a href="{{ route('users.index') }}" class="btn btn-secondary">Kembali</a>
     </form>
                     </div>
                 </div>
@@ -86,7 +91,7 @@
 
 
     <!-- Footer Start -->
-    @include('layouts3.footer')
+   @include('layouts3.footer')
     <!-- Footer End -->
 
 
