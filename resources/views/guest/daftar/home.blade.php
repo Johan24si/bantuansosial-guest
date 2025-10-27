@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head >
-    
+
     <meta charset="utf-8">
     <title>ChariTeam - Free Nonprofit Website Template</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -12,10 +12,10 @@
     <!-- Favicon -->
     <link href="assets/img/favicon.ico" rel="icon">
     <!--css start-->
-    @include('guest.layouts.css')
+    @include('layouts2.css')
     <!--css end-->
 </head>
-     
+
 <body>
     <!-- Spinner Start -->
     <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
@@ -25,7 +25,7 @@
 
 
     <!-- Navbar Start -->
-    @include('guest.layouts.header')
+    @include('layouts2.header')
     <!-- Navbar End -->
 
 
@@ -464,7 +464,7 @@
 
 
     <!-- Footer Start -->
-    @include('guest.layouts.footer')
+    @include('layouts2.footer')
     <!-- Footer End -->
 
 
@@ -472,7 +472,7 @@
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 
     <!--js start-->
-    @include('guest.layouts.js')
+    @include('layouts2.js')
     <!-- js end-->
 
 </body>

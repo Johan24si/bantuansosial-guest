@@ -27,31 +27,25 @@
 
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto p-4 p-lg-0">
-                <a href="home" class="nav-item nav-link">Home</a>
-                <a href="about" class="nav-item nav-link">About</a>
-                <a href="causes.html" class="nav-item nav-link">Causes</a>
-
-                <div class="nav-item dropdown">
+                <a href="home" class="nav-item nav-link">home</a>
+                <a href="about" class="nav-item nav-link">about</a>
+                <a href="index" class="nav-item nav-link">Pendaftar Bantuan</a>
+                <a href="causes.html" class="nav-item nav-link">Program Bantuan</a>
+                 <a href="causes.html" class="nav-item nav-link">Verifikasi Lapangan</a>
+                  <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Pages</a>
                     <div class="dropdown-menu m-0">
-                        <a href="service.html" class="dropdown-item">Service</a>
-                        <a href="index" class="dropdown-item active">Data Pendaftar bantuan</a>
                         <a href="warga" class="dropdown-item">Data Warga</a>
                         <a href="users" class="dropdown-item">Data Users</a>
-                        <a href="team.html" class="dropdown-item">Our Team</a>
-                        <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                        <a href="404.html" class="dropdown-item">404 Page</a>
+                        <a href="users" class="dropdown-item">Riwayat Penyaluran</a>
                     </div>
                 </div>
+                  <a href="causes.html" class="nav-item nav-link">Program Bantuan</a>
+                   <a href="causes.html" class="nav-item nav-link">Penerima bantuan</a>
 
-                <a href="contact.html" class="nav-item nav-link">Contact</a>
             </div>
 
             <div class="d-none d-lg-flex ms-2">
-                <a class="btn btn-outline-primary py-2 px-3" href="">
-                    Donate Now
-                    <div class="d-inline-flex btn-sm-square bg-white text-primary rounded-circle ms-2">
-                        <i class="fa fa-arrow-right"></i>
                     </div>
                 </a>
             </div>
