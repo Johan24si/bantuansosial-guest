@@ -58,11 +58,38 @@ Route::post('/users/update/{id}', [UsersController::class, 'update'])->name('use
 Route::delete('/users/delete/{id}', [UsersController::class, 'destroy'])->name('users.destroy');
 
 
+// Halaman About
+Route::get('/about', function () {
+    return view('guest.daftar.about');
+})->name('about');
 
+// Halaman Pendaftar Bantuan
+Route::get('/pendaftar', function () {
+    return view('pendaftar.index');
+})->name('pendaftar.index');
 
+// Halaman Program Bantuan
+Route::get('/program', function () {
+    return view('program.index');
+})->name('program.index');
 
+// Halaman Verifikasi Lapangan
+Route::get('/verifikasi', function () {
+    return view('verifikasi.index');
+})->name('verifikasi.index');
 
+// Riwayat Penyaluran
+// ============================
+Route::get('/riwayat', function () {
+    return view('riwayat.index');
+})->name('riwayat.index');
 
+// ============================
+// Penerima Bantuan
+// ============================
+Route::get('/penerima', function () {
+    return view('penerima.index');
+})->name('penerima.index');
 
 
 //Route::resource('Pendaftar', PendaftarBantuanController::class);

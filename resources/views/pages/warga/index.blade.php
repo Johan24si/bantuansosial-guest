@@ -15,9 +15,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Saira:wght@500;600;700&display=swap" rel="stylesheet">
-    
+
     <!--start css-->
-   @include('layouts2.css')
+   @include('layouts2.guest.css')
     <!-- end css-->
 </head>
 
@@ -30,7 +30,7 @@
 
 
     <!-- Navbar Start -->
-    @include('layouts2.header')
+    @include('layouts2.guest.header')
     <!-- Navbar End -->
 
 
@@ -126,7 +126,7 @@
 
 
     <!-- Footer Start -->
-    @include('layouts2.footer')
+    @include('layouts2.guest.footer')
     <!-- Footer End -->
 
 
@@ -134,7 +134,7 @@
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 
     <!-- start js-->
-   @include('layouts2.js')
+   @include('layouts2.guest.js')
     <!-- end js-->
 </body>
 
