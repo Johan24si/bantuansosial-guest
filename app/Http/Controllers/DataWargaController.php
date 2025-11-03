@@ -10,12 +10,12 @@ class DataWargaController extends Controller
     public function index()
     {
         $data = Warga::orderBy('warga_id', 'DESC')->get();
-        return view('warga.index', compact('data'));
+        return view('pages.warga.index', compact('data'));
     }
 
     public function create()
     {
-        return view('warga.create');
+        return view('pages.warga.create');
     }
 
     public function store(Request $request)
@@ -35,7 +35,7 @@ class DataWargaController extends Controller
     public function edit($id)
     {
         $data = Warga::findOrFail($id);
-        return view('warga.edit', compact('data'));
+        return view('pages.warga.edit', compact('data'));
     }
 
     public function update(Request $request, $id)

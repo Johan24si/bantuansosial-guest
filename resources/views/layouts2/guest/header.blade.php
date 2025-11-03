@@ -27,13 +27,13 @@
 
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto p-4 p-lg-0">
-                <a href="home" class="nav-item nav-link">home</a>
+                <a href="home" class="nav-item nav-link active">home</a>
                 <a href="about" class="nav-item nav-link">about</a>
                 <a href="index" class="nav-item nav-link">Pendaftar Bantuan</a>
                 <a href="causes.html" class="nav-item nav-link">Program Bantuan</a>
                  <a href="causes.html" class="nav-item nav-link">Verifikasi Lapangan</a>
                   <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Pages</a>
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                     <div class="dropdown-menu m-0">
                         <a href="warga" class="dropdown-item">Data Warga</a>
                         <a href="users" class="dropdown-item">Data Users</a>
