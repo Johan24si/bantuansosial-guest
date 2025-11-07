@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\AuthController;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
     public function showLogin()
     {
-        return view('pages.Login');
+        return view('Login');
     }
 
     public function login(Request $request)
@@ -19,23 +21,41 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
 
-        // Contoh login manual sederhana
-        if ($request->email === 'johan24si@mahasiswa.pcr.ac.id' && $request->password === '123') {
-            // redirect ke home
+        // Cek user dari database
+        $user = User::where('email', $request->email)->first();
+
+        // Jika user ada dan password cocok
+        if ($user && Hash::check($request->password, $user->password)) {
+            Auth::login($user);
             return redirect()->route('home');
         }
 
-        return back()->with('error', 'Username atau password salah!');
+        // Gagal
+        return back()->with('error', 'Email atau password salah!');
     }
-    public function register(Request $request)
-{
-    $request->validate([
-        'name' => 'required',
-        'email' => 'required|email',
-        'password' => 'required|min:3'
-    ]);
 
-    // Simulasi pendaftaran (belum ke database)
-    return back()->with('error', 'Akun berhasil dibuat! Silakan login.');
-}
+    public function register(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:3'
+        ]);
+
+        // Simpan user baru ke database
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            // Hash password biar aman
+            'password' => Hash::make($request->password)
+        ]);
+
+        return back()->with('success', 'Akun berhasil dibuat! Silakan login.');
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('login');
+    }
 }
