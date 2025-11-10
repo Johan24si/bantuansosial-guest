@@ -38,4 +38,13 @@ class AuthController extends Controller
     // Simulasi pendaftaran (belum ke database)
     return back()->with('error', 'Akun berhasil dibuat! Silakan login.');
 }
+public function logout(Request $request)
+    {
+         return view('pages.Login');
+
+        $request->session()->invalidate(); // Hapus semua data session
+        $request->session()->regenerateToken(); // Regenerasi CSRF token agar aman
+
+        return redirect('/')->with('success', 'Anda telah berhasil logout.');
+    }
 }

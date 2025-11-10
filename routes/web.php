@@ -93,3 +93,6 @@ Route::get('/penerima', function () {
 
 
 //Route::resource('Pendaftar', PendaftarBantuanController::class);
+ //logout
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
