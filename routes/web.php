@@ -41,13 +41,21 @@ Route::delete('/warga/delete/{id}', [DataWargaController::class, 'destroy'])->na
 
 
 //login
+// Web.php
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login.process');
-Route::post('/register', [AuthController::class, 'register'])->name('register.process');
-
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+// Home setelah login
 Route::get('/home', function () {
     return view('guest.daftar.home');
-})->name('home');
+})->name('home')->middleware('auth');
+
+ //profile
+ Route::get('/profile', function () {
+    return "Halaman Profile";
+})->name('profile')->middleware('auth');
 
 // ini route Users
 Route::get('/users', [UsersController::class, 'index'])->name('users.index');
@@ -63,10 +71,9 @@ Route::get('/about', function () {
     return view('guest.daftar.about');
 })->name('about');
 
-// Halaman Pendaftar Bantuan
-Route::get('/pendaftar', function () {
-    return view('pendaftar.index');
-})->name('pendaftar.index');
+Route::get('/pendaftar', [PendaftarBantuanController::class, 'index'])->name('pendaftar.index');
+
+
 
 // Halaman Program Bantuan
 Route::get('/program', function () {

@@ -21,7 +21,19 @@
             align-items: center;
             height: 100vh;
             margin: 0;
+
+            /* --- Tambahan animasi background bergerak --- */
+            background-size: 150% 150%;
+            animation: bgMove 20s infinite alternate ease-in-out;
         }
+
+        @keyframes bgMove {
+            0% { background-position: center top; }
+            50% { background-position: center center; }
+            100% { background-position: center bottom; }
+        }
+        /* --- Akhir tambahan animasi --- */
+
 
         .container {
             width: 400px;
@@ -152,7 +164,7 @@
         <div class="brand"><span class="orange">Chari</span><span class="black">Team</span></div>
 
         {{-- LOGIN FORM --}}
-        <form id="loginForm" action="{{ route('login.process') }}" method="POST">
+        <form id="loginForm" action="{{ route('login') }}" method="POST">
             @csrf
             @if(session('error'))
                 <p class="error-msg">{{ session('error') }}</p>
@@ -173,7 +185,7 @@
         </form>
 
         {{-- REGISTER FORM --}}
-        <form id="registerForm" class="hidden" action="{{ route('register.process') }}" method="POST">
+        <form id="registerForm" class="hidden" action="{{ route('register') }}" method="POST">
             @csrf
             <h2>Sign Up</h2>
 
