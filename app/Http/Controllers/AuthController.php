@@ -34,19 +34,6 @@ class AuthController extends Controller
         return back()->with('error', 'Email atau password salah!');
     }
 
-<<<<<<< HEAD
-    // Simulasi pendaftaran (belum ke database)
-    return back()->with('error', 'Akun berhasil dibuat! Silakan login.');
-}
-public function logout(Request $request)
-    {
-         return view('pages.Login');
-
-        $request->session()->invalidate(); // Hapus semua data session
-        $request->session()->regenerateToken(); // Regenerasi CSRF token agar aman
-
-        return redirect('/')->with('success', 'Anda telah berhasil logout.');
-=======
     public function register(Request $request)
     {
         $request->validate([
@@ -70,6 +57,5 @@ public function logout(Request $request)
     {
         Auth::logout();
         return redirect()->route('login');
->>>>>>> 0cfebcd1b9ddcc39e876d606f2efc6cd79cf3e49
     }
 }
