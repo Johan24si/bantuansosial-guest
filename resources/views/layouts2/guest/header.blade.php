@@ -127,20 +127,6 @@
 </li>
 @endauth
 
-<<<<<<< HEAD
-                <!-- Tombol Logout -->
-                <li class="nav-item">
-                    <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                        @csrf
-                        <button type="submit" class="btn btn-outline-light ms-3">
-                            <i class="fa fa-sign-out-alt me-1"></i> Logout
-                        </button>
-                    </form>
-                </li>
-
-            </ul>
-=======
->>>>>>> 0cfebcd1b9ddcc39e876d606f2efc6cd79cf3e49
         </div>
     </nav>
 </div>
