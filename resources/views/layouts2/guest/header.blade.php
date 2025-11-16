@@ -49,7 +49,7 @@
 </li>
 
 <li class="nav-item {{ request()->routeIs('program') ? 'active' : '' }}">
-    <a href="{{ route('program.index') }}" class="nav-link d-flex align-items-center gap-2">
+    <a href="{{ route('program_bantuan.index') }}" class="nav-link d-flex align-items-center gap-2">
         <i class="fa fa-list"></i>
         <span>Program</span>
     </a>

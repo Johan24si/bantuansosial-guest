@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\DataWargaController;
+use App\Http\Controllers\ProgramBantuanController;
 use App\Http\Controllers\PendaftarBantuanController;
 
 // Route login
@@ -66,6 +67,14 @@ Route::post('/users/update/{id}', [UsersController::class, 'update'])->name('use
 Route::delete('/users/delete/{id}', [UsersController::class, 'destroy'])->name('users.destroy');
 
 
+//ini route program bantuan
+Route::get('/program_bantuan', [ProgramBantuanController::class, 'index'])->name('program_bantuan.index');
+Route::get('/program_bantuan/create', [ProgramBantuanController::class, 'create'])->name('program_bantuan.create');
+Route::post('/program_bantuan/store', [ProgramBantuanController::class, 'store'])->name('program_bantuan.store');
+Route::get('/program_bantuan/edit/{id}', [ProgramBantuanController::class, 'edit'])->name('program_bantuan.edit');
+Route::post('/program_bantuan/update/{id}', [ProgramBantuanController::class, 'update'])->name('program_bantuan.update');
+Route::delete('/program_bantuan/delete/{id}', [ProgramBantuanController::class, 'destroy'])->name('program_bantuan.destroy');
+
 // Halaman About
 Route::get('/about', function () {
     return view('guest.daftar.about');
@@ -75,10 +84,6 @@ Route::get('/pendaftar', [PendaftarBantuanController::class, 'index'])->name('pe
 
 
 
-// Halaman Program Bantuan
-Route::get('/program', function () {
-    return view('program.index');
-})->name('program.index');
 
 // Halaman Verifikasi Lapangan
 Route::get('/verifikasi', function () {

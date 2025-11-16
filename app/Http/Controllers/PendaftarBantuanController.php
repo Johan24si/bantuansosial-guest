@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\ProgramBantuan;
 use App\Models\PendaftarBantuan;
 use App\Http\Controllers\PendaftarBantuanController;
 
@@ -21,7 +22,8 @@ class PendaftarBantuanController extends Controller{
     
     public function create()
     {
-        return view('guest.daftar.create');
+   $programs = ProgramBantuan::all(); // Ambil semua data program bantuan
+    return view('guest.daftar.create', compact('programs'));
     }
 
 

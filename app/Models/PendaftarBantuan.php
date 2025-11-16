@@ -18,4 +18,8 @@ class PendaftarBantuan extends Model
         'warga_id',
         'status_seleksi',
     ];
+    public function program()
+{
+    return $this->belongsTo(ProgramBantuan::class, 'program_id');
+}
 }

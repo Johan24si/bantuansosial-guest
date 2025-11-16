@@ -30,9 +30,16 @@
                         <form action="{{ route('store') }}" method="POST">
         @csrf
         <div class="mb-3">
-            <label>Program ID</label>
-            <input type="number" name="program_id" class="form-control" required>
-        </div>
+    <label>Program Bantuan</label>
+    <select name="program_id" class="form-control" required>
+        <option value="">-- Pilih Program --</option>
+        @foreach($programs as $program)
+            <option value="{{ $program->program_id }}">
+                {{ $program->nama_program }} ({{ $program->tahun }})
+            </option>
+        @endforeach
+    </select>
+</div>
         <div class="mb-3">
             <label>Warga ID</label>
             <input type="number" name="warga_id" class="form-control" required>

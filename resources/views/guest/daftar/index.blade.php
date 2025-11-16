@@ -56,12 +56,16 @@
                             </div>
 
                             <!-- Info Detail -->
-                            <div class="mt-3">
-                                <p class="mb-2"><i class="fa fa-list-alt text-primary me-2"></i>
-                                    <strong>Program ID:</strong> {{ $item->program_id }}</p>
-                                <p class="mb-0"><i class="fa fa-calendar text-success me-2"></i>
-                                    <strong>Tanggal Daftar:</strong> {{ $item->created_at->format('d M Y') }}</p>
-                            </div>
+                           <div class="mt-3">
+    <p class="mb-2">
+        <i class="fa fa-list-alt text-primary me-2"></i>
+        <strong>Program:</strong> {{ $item->program->nama_program }} ({{ $item->program->tahun }})
+    </p>
+    <p class="mb-0">
+        <i class="fa fa-calendar text-success me-2"></i>
+        <strong>Tanggal Daftar:</strong> {{ $item->created_at->format('d M Y') }}
+    </p>
+</div>
 
                             <!-- Divider -->
                             <hr class="my-4" style="border-top: 2px solid #f0f0f0;">

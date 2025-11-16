@@ -1,6 +1,6 @@
 @extends('layouts2.guest.app')
 @section('content')
- <!-- Page Header Start -->
+<!-- Page Header Start -->
     <div class="container-fluid page-header mb-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container text-center">
             <h1 class="display-4 text-white animated slideInDown mb-4">Edit data</h1>
@@ -27,28 +27,33 @@
                 </div>
                 <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
                     <div class="h-100 bg-secondary p-5">
-                        <form action="{{ route('update', $data->pendaftar_id) }}" method="POST">
+                        <h2>Edit Program Bantuan</h2>
+
+    <form action="{{ route('program_bantuan.update', $program->program_id) }}" method="POST">
         @csrf
-       <select name="program_id" class="form-control" required>
-        <option value="">-- Pilih Program --</option>
-        @foreach($programs as $program)
-            <option value="{{ $program->program_id }}">
-                {{ $program->nama_program }} ({{ $program->tahun }})
-            </option>
-        @endforeach
-    </select>
-</div>
         <div class="mb-3">
-            <label>Warga ID</label>
-            <input type="number" name="warga_id" value="{{ $data->warga_id }}" class="form-control" required>
+            <label>Kode</label>
+            <input type="text" name="kode" value="{{ $program->kode }}" class="form-control" required>
         </div>
         <div class="mb-3">
-            <label>Status Seleksi</label>
-            <input type="text" name="status_seleksi" value="{{ $data->status_seleksi }}" class="form-control">
+            <label>Nama Program</label>
+            <input type="text" name="nama_program" value="{{ $program->nama_program }}" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Tahun</label>
+            <input type="number" name="tahun" value="{{ $program->tahun }}" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Deskripsi</label>
+            <textarea name="deskripsi" class="form-control">{{ $program->deskripsi }}</textarea>
+        </div>
+        <div class="mb-3">
+            <label>Anggaran</label>
+            <input type="number" step="0.01" name="anggaran" value="{{ $program->anggaran }}" class="form-control" required>
         </div>
 
-        <button class="btn btn-primary">Update</button>
-        <a href="{{ route('index') }}" class="btn btn-secondary">Kembali</a>
+        <button type="submit" class="btn btn-success">Update</button>
+        <a href="{{ route('program_bantuan.index') }}" class="btn btn-secondary">Kembali</a>
     </form>
                     </div>
                 </div>
