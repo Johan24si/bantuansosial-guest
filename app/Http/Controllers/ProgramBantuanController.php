@@ -7,10 +7,23 @@ use Illuminate\Http\Request;
 
 class ProgramBantuanController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $programs = ProgramBantuan::all();
-        return view('pages.Programbantuan.index', compact('programs'));
+        $search = $request->search;
+        $tahun  = $request->tahun;
+
+        $programs = ProgramBantuan::when($search, function ($q) use ($search) {
+                                $q->where('nama_program', 'like', "%$search%")
+                                  ->orWhere('kode', 'like', "%$search%");
+                            })
+                            ->when($tahun, function ($q) use ($tahun) {
+                                $q->where('tahun', $tahun);
+                            })
+                            ->orderBy('program_id', 'DESC')
+                            ->paginate(6)
+                            ->withQueryString();
+
+        return view('pages.programbantuan.index', compact('programs', 'search', 'tahun'));
     }
 
     public function create()

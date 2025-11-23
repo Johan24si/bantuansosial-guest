@@ -8,10 +8,24 @@ use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::latest()->get();
-        return view('pages.user.index', compact('users'));
+        // SAMA seperti warga → pakai $query + orderBy
+        $query = User::orderBy('id', 'DESC');
+
+        // SEARCH name / email (mirip warga search nama / no_ktp)
+        if ($request->search) {
+            $query->where(function ($q) use ($request) {
+                $q->where('name', 'LIKE', '%' . $request->search . '%')
+                  ->orWhere('email', 'LIKE', '%' . $request->search . '%');
+            });
+        }
+
+        // Pagination (6 per page) — sama seperti warga
+        $users = $query->paginate(6);
+
+        return view('pages.user.index', compact('users'))
+                ->with('search', $request->search);
     }
 
     public function create()

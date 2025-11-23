@@ -7,10 +7,29 @@ use App\Models\Warga;
 
 class DataWargaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data = Warga::orderBy('warga_id', 'DESC')->get();
-        return view('pages.warga.index', compact('data'));
+        $query = Warga::orderBy('warga_id', 'DESC');
+
+        // FILTER JENIS KELAMIN
+        if ($request->jenis_kelamin) {
+            $query->where('jenis_kelamin', $request->jenis_kelamin);
+        }
+
+        // SEARCH NAMA / NIK
+        if ($request->search) {
+            $query->where(function ($q) use ($request) {
+                $q->where('nama', 'LIKE', '%' . $request->search . '%')
+                  ->orWhere('no_ktp', 'LIKE', '%' . $request->search . '%');
+            });
+        }
+
+        // PAGINATION (6 DATA PER PAGE)
+        $data = $query->paginate(6);
+
+        return view('pages.warga.index', compact('data'))
+                ->with('search', $request->search)
+                ->with('jenis_kelamin', $request->jenis_kelamin);
     }
 
     public function create()

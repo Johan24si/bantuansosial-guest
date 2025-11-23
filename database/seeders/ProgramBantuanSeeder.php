@@ -10,14 +10,25 @@ class ProgramBantuanSeeder extends Seeder
 {
     public function run()
     {
-        $faker = Factory::create('id_ID');  // Locale Indonesia
+        $faker = Factory::create('id_ID');
 
-        foreach (range(1, 5) as $index) {
+        // Daftar nama program khas Indonesia (ditambah sesuai permintaan)
+        $programs = [
+            'Bantuan Langsung Tunai Desa',
+            'Program Keluarga Harapan',
+            'Bantuan Pangan Non Tunai',
+            'Bantuan Modal UMKM',
+            'Beasiswa Pendidikan Warga Tidak Mampu',
+            'Bantuan Untuk Orang Kurang Mampu',
+            'Bantuan Panti Asuhan',
+        ];
+
+        foreach (range(1, 100) as $index) {
             DB::table('program_bantuan')->insert([
                 'kode' => 'PB' . str_pad($index, 4, '0', STR_PAD_LEFT),
-                'nama_program' => $faker->words(3, true), // 3 kata sebagai nama program
+                'nama_program' => $faker->randomElement($programs),
                 'tahun' => $faker->year($max = 'now'),
-                'deskripsi' => $faker->optional()->realText(100), // teks pendek ala Indonesia
+                'deskripsi' => $faker->sentence(8),
                 'anggaran' => $faker->randomFloat(2, 1000000, 1000000000),
                 'created_at' => now(),
                 'updated_at' => now(),
