@@ -27,29 +27,25 @@
             </a>
         </div>
 
-        {{-- SEARCH BAR (SAMA DENGAN WARGA) --}}
+        {{-- SEARCH BAR --}}
         <form method="GET" action="{{ route('users.index') }}" class="mb-4">
             <div class="row g-2">
                 <div class="col-md-6">
                     <div class="input-group">
-
-                        <input type="text" 
-                               name="search" 
-                               class="form-control" 
+                        <input type="text"
+                               name="search"
+                               class="form-control"
                                placeholder="Cari nama / email..."
                                value="{{ request('search') }}">
-
                         <button class="btn btn-primary">
                             <i class="bi bi-search"></i>
                         </button>
-
                         @if(request('search'))
                             <a href="{{ request()->fullUrlWithQuery(['search' => null, 'page' => null]) }}"
                                class="btn btn-outline-secondary">
                                 Clear
                             </a>
                         @endif
-
                     </div>
                 </div>
             </div>
@@ -60,7 +56,7 @@
             <div class="alert alert-success shadow-sm rounded-3">{{ session('success') }}</div>
         @endif
 
-        {{-- CARD USERS (TIDAK DIUBAH!) --}}
+        {{-- CARD USERS --}}
         <div class="row g-4">
             @forelse($users as $user)
                 <div class="col-md-6 col-lg-4">
@@ -69,10 +65,22 @@
 
                         <div class="card-body p-4">
                             <div class="d-flex align-items-center mb-3">
-                                <div class="rounded-circle d-flex align-items-center justify-content-center me-3"
-                                     style="width: 55px; height: 55px; background-color: #00b894; color: #fff; font-weight: bold; font-size: 1.3rem;">
-                                    {{ strtoupper(substr($user->name, 0, 1)) }}
+
+                                {{-- FOTO PROFIL ATAU INISIAL --}}
+                                <div class="rounded-circle overflow-hidden me-3"
+                                     style="width: 55px; height: 55px;">
+
+                                    @if($user->media->count() && Str::startsWith($user->media->first()->mime_type, 'image'))
+                                        <img src="{{ asset('storage/'.$user->media->first()->file_name) }}"
+                                             style="width: 100%; height: 100%; object-fit: cover;">
+                                    @else
+                                        <div class="w-100 h-100 d-flex align-items-center justify-content-center"
+                                             style="background-color:#00b894; color:#fff; font-weight:bold; font-size:1.3rem;">
+                                            {{ strtoupper(substr($user->name, 0, 1)) }}
+                                        </div>
+                                    @endif
                                 </div>
+
                                 <div>
                                     <h5 class="fw-bold text-dark mb-1">{{ $user->name }}</h5>
                                     <small class="text-muted">{{ $user->email }}</small>
@@ -102,7 +110,8 @@
                             </div>
                         </div>
 
-                        <div class="position-absolute top-0 start-0 w-100" style="height: 6px; background: linear-gradient(90deg, #00c6ff, #0072ff);"></div>
+                        <div class="position-absolute top-0 start-0 w-100"
+                             style="height: 6px; background: linear-gradient(90deg, #00c6ff, #0072ff);"></div>
                     </div>
                 </div>
             @empty
@@ -112,7 +121,7 @@
             @endforelse
         </div>
 
-        {{-- PAGINATION (SAMA PERSIS Dengan WARGA) --}}
+        {{-- PAGINATION --}}
         <div class="mt-4 d-flex justify-content-center">
             <nav aria-label="Page navigation">
                 <ul class="pagination">

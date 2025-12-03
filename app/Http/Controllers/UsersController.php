@@ -3,29 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Media;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UsersController extends Controller
 {
     public function index(Request $request)
     {
-        // SAMA seperti warga → pakai $query + orderBy
-        $query = User::orderBy('id', 'DESC');
+        $search = $request->search;
 
-        // SEARCH name / email (mirip warga search nama / no_ktp)
-        if ($request->search) {
-            $query->where(function ($q) use ($request) {
-                $q->where('name', 'LIKE', '%' . $request->search . '%')
-                  ->orWhere('email', 'LIKE', '%' . $request->search . '%');
-            });
-        }
+        $users = User::with('media')
+            ->when($search, function ($q) use ($search) {
+                $q->where('name', 'like', "%$search%")
+                  ->orWhere('email', 'like', "%$search%");
+            })
+            ->orderBy('id', 'DESC')
+            ->paginate(6)
+            ->withQueryString();
 
-        // Pagination (6 per page) — sama seperti warga
-        $users = $query->paginate(6);
-
-        return view('pages.user.index', compact('users'))
-                ->with('search', $request->search);
+        return view('pages.user.index', compact('users', 'search'));
     }
 
     public function create()
@@ -36,50 +34,103 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6'
+            'name'        => 'required',
+            'email'       => 'required|email|unique:users',
+            'password'    => 'required|min:6',
+            'media.*'     => 'nullable|file|mimes:jpg,jpeg,png,webp,mp4,pdf|max:5120',
         ]);
 
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password)
+        // Simpan user
+        $user = User::create([
+            'name'     => $request->name,
+            'email'    => $request->email,
+            'password' => Hash::make($request->password),
         ]);
 
-        return redirect()->route('users.index')->with('success', 'User berhasil ditambahkan');
+        // Simpan media
+        if ($request->hasFile('media')) {
+            foreach ($request->file('media') as $index => $file) {
+
+                $path = $file->store('uploads/users', 'public');
+
+                Media::create([
+                    'ref_table'  => 'users',
+                    'ref_id'     => $user->id,
+                    'file_name'  => $path,
+                    'mime_type'  => $file->getClientMimeType(),
+                    'caption'    => null,
+                    'sort_order' => $index,
+                ]);
+            }
+        }
+
+        return redirect()->route('users.index')
+            ->with('success', 'User berhasil ditambahkan!');
     }
 
     public function edit($id)
     {
-        $user = User::findOrFail($id);
+        $user = User::with('media')->findOrFail($id);
         return view('pages.user.edit', compact('user'));
     }
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email'
-        ]);
-
         $user = User::findOrFail($id);
 
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => $request->password
-                ? Hash::make($request->password)
-                : $user->password
+        $request->validate([
+            'name'        => 'required',
+            'email'       => 'required|email|unique:users,email,' . $id,
+            'password'    => 'nullable|min:6',
+            'media.*'     => 'nullable|file|mimes:jpg,jpeg,png,webp,mp4,pdf|max:5120',
         ]);
 
-        return redirect()->route('users.index')->with('success', 'User berhasil diupdate');
+        // Update user
+        $user->update([
+            'name'     => $request->name,
+            'email'    => $request->email,
+            'password' => $request->password
+                            ? Hash::make($request->password)
+                            : $user->password
+        ]);
+
+        // Tambah media baru
+        if ($request->hasFile('media')) {
+            foreach ($request->file('media') as $index => $file) {
+
+                $path = $file->store('uploads/users', 'public');
+
+                Media::create([
+                    'ref_table'  => 'users',
+                    'ref_id'     => $user->id,
+                    'file_name'  => $path,
+                    'mime_type'  => $file->getClientMimeType(),
+                    'caption'    => null,
+                    'sort_order' => $index,
+                ]);
+            }
+        }
+
+        return redirect()->route('users.index')
+            ->with('success', 'User berhasil diperbarui!');
     }
 
     public function destroy($id)
     {
-        User::findOrFail($id)->delete();
+        $user = User::findOrFail($id);
 
-        return redirect()->route('users.index')->with('success', 'User berhasil dihapus');
+        // Hapus semua media milik user
+        foreach ($user->media as $media) {
+            if (Storage::disk('public')->exists($media->file_name)) {
+                Storage::disk('public')->delete($media->file_name);
+            }
+            $media->delete();
+        }
+
+        // Hapus user
+        $user->delete();
+
+        return redirect()->route('users.index')
+            ->with('success', 'User berhasil dihapus!');
     }
 }

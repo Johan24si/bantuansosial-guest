@@ -22,4 +22,10 @@ class PendaftarBantuan extends Model
 {
     return $this->belongsTo(ProgramBantuan::class, 'program_id');
 }
+public function media()
+{
+    return $this->hasMany(Media::class, 'ref_id', 'pendaftar_id')
+                ->where('ref_table', 'pendaftar_bantuan')
+                ->orderBy('sort_order', 'ASC');
+}
 }

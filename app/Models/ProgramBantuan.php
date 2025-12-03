@@ -26,4 +26,10 @@ class ProgramBantuan extends Model
     {
         return $this->hasMany(PendaftarBantuan::class, 'program_id');
     }
+    public function media()
+{
+    return $this->hasMany(\App\Models\Media::class, 'ref_id', 'program_id')
+                ->where('ref_table', 'program_bantuan')
+                ->orderBy('sort_order', 'ASC');
+}
 }

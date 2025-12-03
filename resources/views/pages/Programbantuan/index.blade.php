@@ -3,12 +3,12 @@
 
 <div class="container-fluid page-header mb-5 wow fadeIn" data-wow-delay="0.1s">
     <div class="container text-center">
-        <h1 class="display-4 text-white animated slideInDown mb-4">ProgramBantuan</h1>
+        <h1 class="display-4 text-white animated slideInDown mb-4">Program Bantuan</h1>
         <nav aria-label="breadcrumb animated slideInDown">
             <ol class="breadcrumb justify-content-center mb-0">
                 <li class="breadcrumb-item"><a class="text-white" href="#">Home</a></li>
                 <li class="breadcrumb-item"><a class="text-white" href="#">Pages</a></li>
-                <li class="breadcrumb-item text-primary active" aria-current="page">ProgramBantuan</li>
+                <li class="breadcrumb-item text-primary active" aria-current="page">Program Bantuan</li>
             </ol>
         </nav>
     </div>
@@ -29,11 +29,9 @@
         <div class="alert alert-success shadow-sm">{{ session('success') }}</div>
     @endif
 
-
-    {{-- ====================== SEARCH & FILTER ====================== --}}
+    {{-- SEARCH & FILTER --}}
     <div class="row mb-4">
 
-        {{-- SEARCH --}}
         <div class="col-md-5">
             <form method="GET" action="{{ route('program_bantuan.index') }}">
                 <div class="input-group">
@@ -43,9 +41,8 @@
 
                     <button class="btn btn-primary">Cari</button>
 
-                    {{-- CLEAR SEARCH --}}
                     @if(request('search'))
-                        <a href="{{ request()->fullUrlWithQuery(['search' => null]) }}"
+                        <a href="{{ route('program_bantuan.index', ['tahun' => request('tahun')]) }}"
                            class="btn btn-outline-secondary ms-2">
                             Clear
                         </a>
@@ -54,9 +51,10 @@
             </form>
         </div>
 
-        {{-- FILTER TAHUN --}}
         <div class="col-md-3">
             <form method="GET" action="{{ route('program_bantuan.index') }}">
+                <input type="hidden" name="search" value="{{ request('search') }}">
+
                 <select name="tahun" class="form-select" onchange="this.form.submit()">
                     <option value="">Filter Tahun</option>
                     @foreach($programs->pluck('tahun')->unique() as $th)
@@ -69,13 +67,30 @@
         </div>
 
     </div>
-    {{-- ====================== END SEARCH & FILTER ====================== --}}
 
-
+    {{-- LIST CARD --}}
     <div class="row g-4">
         @foreach($programs as $p)
         <div class="col-md-4">
-            <div class="card border-0 shadow-lg h-100 hover-zoom" style="border-radius:18px; transition:0.3s;">
+            <div class="card border-0 shadow-lg h-100 hover-zoom" style="border-radius:18px; overflow:hidden;">
+
+                {{-- Thumbnail Gambar --}}
+                <div style="height:180px; overflow:hidden;">
+
+                    @php
+                        $img = $p->media->first();
+
+                        if ($img && file_exists(storage_path('app/public/' . $img->file_name))) {
+                            $imgPath = asset('storage/' . $img->file_name);
+                        } else {
+                            $imgPath = 'https://via.placeholder.com/400x200?text=No+Image';
+                        }
+                    @endphp
+
+                    <img src="{{ $imgPath }}" class="w-100 h-100 object-fit-cover">
+
+                </div>
+
                 <div class="card-body p-4">
 
                     <div class="d-flex justify-content-between align-items-center mb-3">
@@ -92,9 +107,10 @@
                         <i class="bi bi-cash-stack me-1"></i>
                         Rp{{ number_format($p->anggaran, 2, ',', '.') }}
                     </p>
+
                     <p class="text-muted">
                         <i class="bi bi-card-text me-1"></i>
-                        {{ Str::limit($p->deskripsi, 60) }}
+                        {{ \Illuminate\Support\Str::limit($p->deskripsi, 60) }}
                     </p>
 
                     <div class="d-flex gap-2 mt-3">
@@ -120,18 +136,19 @@
         @endforeach
     </div>
 
-    {{-- PAGINATION --}}
     <div class="d-flex justify-content-center mt-4">
         {{ $programs->links('pagination::bootstrap-5') }}
     </div>
 
 </div>
 
-
 <style>
 .hover-zoom:hover {
     transform: scale(1.04);
     box-shadow: 0 8px 30px rgba(0,0,0,0.3) !important;
+}
+.object-fit-cover {
+    object-fit: cover;
 }
 </style>
 

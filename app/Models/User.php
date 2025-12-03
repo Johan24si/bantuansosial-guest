@@ -45,4 +45,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function media()
+{
+    return $this->hasMany(Media::class, 'ref_id')
+                ->where('ref_table', 'users')
+                ->orderBy('sort_order');
+}
 }

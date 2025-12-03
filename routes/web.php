@@ -63,7 +63,7 @@ Route::get('/users', [UsersController::class, 'index'])->name('users.index');
 Route::get('/users/create', [UsersController::class, 'create'])->name('users.create');
 Route::post('/users/store', [UsersController::class, 'store'])->name('users.store');
 Route::get('/users/edit/{id}', [UsersController::class, 'edit'])->name('users.edit');
-Route::post('/users/update/{id}', [UsersController::class, 'update'])->name('users.update');
+Route::put('/users/update/{id}', [UsersController::class, 'update'])->name('users.update');
 Route::delete('/users/delete/{id}', [UsersController::class, 'destroy'])->name('users.destroy');
 
 
@@ -72,7 +72,7 @@ Route::get('/program_bantuan', [ProgramBantuanController::class, 'index'])->name
 Route::get('/program_bantuan/create', [ProgramBantuanController::class, 'create'])->name('program_bantuan.create');
 Route::post('/program_bantuan/store', [ProgramBantuanController::class, 'store'])->name('program_bantuan.store');
 Route::get('/program_bantuan/edit/{id}', [ProgramBantuanController::class, 'edit'])->name('program_bantuan.edit');
-Route::post('/program_bantuan/update/{id}', [ProgramBantuanController::class, 'update'])->name('program_bantuan.update');
+Route::put('/program_bantuan/update/{id}', [ProgramBantuanController::class, 'update'])->name('program_bantuan.update');
 Route::delete('/program_bantuan/delete/{id}', [ProgramBantuanController::class, 'destroy'])->name('program_bantuan.destroy');
 
 // Halaman About
@@ -107,4 +107,5 @@ Route::get('/penerima', function () {
 //Route::resource('Pendaftar', PendaftarBantuanController::class);
  //logout
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
 
