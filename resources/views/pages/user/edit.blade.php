@@ -53,6 +53,19 @@
                             <input type="password" name="password" class="form-control">
                         </div>
 
+                        <!-- ========================== -->
+                        <!-- FIELD ROLE (DITAMBAHKAN) -->
+                        <!-- ========================== -->
+                        <div class="mb-3">
+                            <label>Role</label>
+                            <select name="role" class="form-control" required>
+                                <option value="">-- Pilih Role --</option>
+                                <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
+                                <option value="user" {{ $user->role == 'user' ? 'selected' : '' }}>User</option>
+                            </select>
+                        </div>
+                        <!-- ========================== -->
+
                         <!-- Media Lama -->
                         @if($user->media->count())
                             <div class="mb-3">
@@ -63,24 +76,20 @@
                                         <div class="position-relative">
 
                                             @if(Str::startsWith($media->mime_type, 'image'))
-                                                <!-- Foto ditampilkan bulat -->
                                                 <img src="{{ asset('storage/'.$media->file_name) }}"
                                                      class="rounded-circle border shadow"
                                                      style="width: 80px; height: 80px; object-fit: cover;">
                                             @elseif(Str::startsWith($media->mime_type, 'video'))
-                                                <!-- Video kecil dan rapi -->
                                                 <video width="120" class="rounded shadow" controls>
                                                     <source src="{{ asset('storage/'.$media->file_name) }}" type="{{ $media->mime_type }}">
                                                 </video>
                                             @else
-                                                <!-- File selain foto/video -->
                                                 <a href="{{ asset('storage/'.$media->file_name) }}" target="_blank"
                                                    class="btn btn-outline-light btn-sm">
                                                     {{ basename($media->file_name) }}
                                                 </a>
                                             @endif
 
-                                            
                                         </div>
                                     @endforeach
 

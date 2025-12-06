@@ -24,6 +24,7 @@
                 <h1 class="display-6 mb-5">Thanks For The Results Achieved With You</h1>
                 <p class="mb-0">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet</p>
             </div>
+
             <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
                 <div class="h-100 bg-secondary p-5">
                     <h2>Tambah User</h2>
@@ -45,6 +46,19 @@
                             <label>Password</label>
                             <input type="password" name="password" class="form-control" required>
                         </div>
+
+                        <!-- ========================== -->
+                        <!-- FIELD ROLE (DITAMBAHKAN) -->
+                        <!-- ========================== -->
+                        <div class="mb-3">
+                            <label>Role</label>
+                            <select name="role" class="form-control" required>
+                                <option value="">-- Pilih Role --</option>
+                                <option value="admin">Admin</option>
+                                <option value="user">User</option>
+                            </select>
+                        </div>
+                        <!-- ========================== -->
 
                         <div class="mb-3">
                             <label>Media (opsional, bisa lebih dari 1)</label>

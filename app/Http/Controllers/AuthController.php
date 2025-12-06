@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Media;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -21,32 +22,46 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
 
-        // Cek user dari database
+        // Cek user
         $user = User::where('email', $request->email)->first();
 
-        // Jika user ada dan password cocok
         if ($user && Hash::check($request->password, $user->password)) {
+
             Auth::login($user);
+
+            // ✔ Ambil foto dari tabel media
+            $mediaPhoto = Media::where('ref_table', 'users')
+                ->where('ref_id', $user->id)
+                ->orderBy('sort_order')
+                ->value('file_name'); // hanya ambil 1 foto
+
+            // ✔ Simpan seluruh data user + foto ke session
+            session([
+                'user' => (object)[
+                    'id'          => $user->id,
+                    'name'        => $user->name,
+                    'email'       => $user->email,
+                    'media_photo' => $mediaPhoto // BISA NULL kalau tidak ada foto
+                ]
+            ]);
+
             return redirect()->route('home');
         }
 
-        // Gagal
         return back()->with('error', 'Email atau password salah!');
     }
 
     public function register(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
+            'name'     => 'required',
+            'email'    => 'required|email|unique:users,email',
             'password' => 'required|min:3'
         ]);
 
-        // Simpan user baru ke database
         User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            // Hash password biar aman
+            'name'     => $request->name,
+            'email'    => $request->email,
             'password' => Hash::make($request->password)
         ]);
 
@@ -56,6 +71,7 @@ class AuthController extends Controller
     public function logout()
     {
         Auth::logout();
+        session()->forget('user');
         return redirect()->route('login');
     }
 }

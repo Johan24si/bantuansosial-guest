@@ -110,11 +110,21 @@
 
 @auth
 <li class="nav-item dropdown">
-    <a href="#" class="nav-link dropdown-toggle d-flex align-items-center gap-2" data-bs-toggle="dropdown">
-        <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=1b6ca8&color=ffffff&size=64"
-             class="rounded-circle" style="width:30px; height:30px;">
-        <span>{{ Auth::user()->name }}</span>
-    </a>
+    <a href="#"
+    class="btn btn-outline-primary rounded-pill dropdown-toggle d-flex align-items-center"
+    data-bs-toggle="dropdown">
+
+    {{-- FOTO PROFIL --}}
+    @if (session('user')->media_photo)
+        <img src="{{ asset('storage/' . session('user')->media_photo) }}"
+            class="rounded-circle me-2" style="width:35px; height:35px; object-fit:cover;">
+    @else
+        <img src="https://ui-avatars.com/api/?name={{ urlencode(session('user')->name) }}&background=random&size=100"
+            class="rounded-circle me-2" style="width:35px; height:35px;">
+    @endif
+
+    {{ session('user')->name }}
+</a>
 
     <ul class="dropdown-menu navbar-profile-dropdown m-0 shadow-lg">
         <li><a href="{{ route('profile') }}" class="dropdown-item">Profil Saya</a></li>

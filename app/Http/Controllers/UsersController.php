@@ -11,20 +11,26 @@ use Illuminate\Support\Facades\Storage;
 class UsersController extends Controller
 {
     public function index(Request $request)
-    {
-        $search = $request->search;
+{
+    $search = $request->search;
+    $role   = $request->role; // <-- Tambahan
 
-        $users = User::with('media')
-            ->when($search, function ($q) use ($search) {
+    $users = User::with('media')
+        ->when($search, function ($q) use ($search) {
+            $q->where(function($q) use ($search) {
                 $q->where('name', 'like', "%$search%")
                   ->orWhere('email', 'like', "%$search%");
-            })
-            ->orderBy('id', 'DESC')
-            ->paginate(6)
-            ->withQueryString();
+            });
+        })
+        ->when($role, function ($q) use ($role) {
+            $q->where('role', $role);
+        })
+        ->orderBy('id', 'DESC')
+        ->paginate(6)
+        ->withQueryString();
 
-        return view('pages.user.index', compact('users', 'search'));
-    }
+    return view('pages.user.index', compact('users', 'search', 'role'));
+}
 
     public function create()
     {
@@ -37,6 +43,7 @@ class UsersController extends Controller
             'name'        => 'required',
             'email'       => 'required|email|unique:users',
             'password'    => 'required|min:6',
+            'role'        => 'required|in:admin,user', // ⬅️ DITAMBAHKAN
             'media.*'     => 'nullable|file|mimes:jpg,jpeg,png,webp,mp4,pdf|max:5120',
         ]);
 
@@ -45,6 +52,7 @@ class UsersController extends Controller
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
+            'role'     => $request->role, // ⬅️ DITAMBAHKAN
         ]);
 
         // Simpan media
@@ -82,6 +90,7 @@ class UsersController extends Controller
             'name'        => 'required',
             'email'       => 'required|email|unique:users,email,' . $id,
             'password'    => 'nullable|min:6',
+            'role'        => 'required|in:admin,user', // ⬅️ DITAMBAHKAN
             'media.*'     => 'nullable|file|mimes:jpg,jpeg,png,webp,mp4,pdf|max:5120',
         ]);
 
@@ -89,6 +98,7 @@ class UsersController extends Controller
         $user->update([
             'name'     => $request->name,
             'email'    => $request->email,
+            'role'     => $request->role, // ⬅️ DITAMBAHKAN
             'password' => $request->password
                             ? Hash::make($request->password)
                             : $user->password

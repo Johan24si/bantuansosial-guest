@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Storage;
 
 class PendaftarBantuanController extends Controller
 {
+    public function home()
+{
+    return view('guest.daftar.home');
+}
     public function index(Request $request)
     {
         $search = $request->search;

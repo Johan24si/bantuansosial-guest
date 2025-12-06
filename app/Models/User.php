@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -21,6 +20,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role', // ditambahkan
     ];
 
     /**
@@ -42,13 +42,19 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'password'          => 'hashed',
         ];
     }
     public function media()
+    {
+        return $this->hasMany(Media::class, 'ref_id')
+            ->where('ref_table', 'users')
+            ->orderBy('sort_order');
+    }
+    public function profilePhoto()
 {
-    return $this->hasMany(Media::class, 'ref_id')
+    return $this->hasOne(\App\Models\Media::class, 'ref_id')
                 ->where('ref_table', 'users')
-                ->orderBy('sort_order');
+                ->orderBy('sort_order', 'asc');
 }
 }
