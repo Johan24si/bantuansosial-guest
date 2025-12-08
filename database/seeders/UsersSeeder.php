@@ -15,13 +15,14 @@ class UsersSeeder extends Seeder
 
         foreach (range(1, 100) as $index) {
             DB::table('users')->insert([
-                'name' => $faker->name,
-                'email' => $faker->unique()->safeEmail,
+                'name'              => $faker->name,
+                'email'             => $faker->unique()->safeEmail,
                 'email_verified_at' => now(),
-                'password' => Hash::make('123456789'), // semua password 'password'
-                'remember_token' => Str::random(10),
-                'created_at' => now(),
-                'updated_at' => now(),
+                'password'          => Hash::make('123456789'),
+                'role'              => $faker->randomElement(['admin', 'user']), // WAJIB ditambah
+                'remember_token'    => Str::random(10),
+                'created_at'        => now(),
+                'updated_at'        => now(),
             ]);
         }
     }
