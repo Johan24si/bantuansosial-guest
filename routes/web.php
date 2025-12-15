@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\DataWargaController;
 use App\Http\Controllers\ProgramBantuanController;
+use App\Http\Controllers\PenerimaBantuanController;
 use App\Http\Controllers\PendaftarBantuanController;
 
 // Route login
@@ -79,8 +80,8 @@ Route::middleware(['checkislogin'])->group(function () {
     // USERS
     // ===============================
     Route::get('/users', [UsersController::class, 'index'])
-        ->name('users.index')
-        ->middleware('checkrole:admin');
+        ->name('users.index');
+       
 
     Route::get('/users/create', [UsersController::class, 'create'])
         ->name('users.create')
@@ -106,8 +107,8 @@ Route::middleware(['checkislogin'])->group(function () {
     // PROGRAM BANTUAN
     // ===============================
     Route::get('/program_bantuan', [ProgramBantuanController::class, 'index'])
-        ->name('program_bantuan.index')
-        ->middleware('checkrole:admin');
+        ->name('program_bantuan.index');
+        
 
     Route::get('/program_bantuan/create', [ProgramBantuanController::class, 'create'])
         ->name('program_bantuan.create')
@@ -133,8 +134,8 @@ Route::middleware(['checkislogin'])->group(function () {
     // ADMIN - PENDAFTAR
     // ===============================
     Route::get('/pendaftar', [PendaftarBantuanController::class, 'index'])
-        ->name('pendaftar.index')
-        ->middleware('checkrole:admin');
+        ->name('pendaftar.index');
+     
 
     // Verifikasi
     Route::get('/verifikasi', function () {
@@ -159,3 +160,26 @@ Route::get('/about', function () {
 
 // route logout (ganda tetap dipertahankan)
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::get('/penerima_bantuan', [PenerimaBantuanController::class, 'index'])
+    ->name('penerima_bantuan.index');
+
+Route::get('/penerima_bantuan/create', [PenerimaBantuanController::class, 'create'])
+    ->name('penerima_bantuan.create')
+    ->middleware('checkrole:admin');
+
+Route::post('/penerima_bantuan/store', [PenerimaBantuanController::class, 'store'])
+    ->name('penerima_bantuan.store')
+    ->middleware('checkrole:admin');
+
+Route::get('/penerima_bantuan/edit/{id}', [PenerimaBantuanController::class, 'edit'])
+    ->name('penerima_bantuan.edit')
+    ->middleware('checkrole:admin');
+
+Route::put('/penerima_bantuan/update/{id}', [PenerimaBantuanController::class, 'update'])
+    ->name('penerima_bantuan.update')
+    ->middleware('checkrole:admin');
+
+Route::delete('/penerima_bantuan/delete/{id}', [PenerimaBantuanController::class, 'destroy'])
+    ->name('penerima_bantuan.destroy')
+    ->middleware('checkrole:admin');

@@ -25,7 +25,7 @@
              style="height: 70px; width: auto;" class="me-2">
 
         <h1 class="fw-bold text-primary m-0">
-            Chari<span class="text-white">Team</span>
+            Bantuan<span class="text-white">Sosial</span>
         </h1>
     </a>
         <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -62,12 +62,14 @@
     </a>
 </li>
 
-<li class="nav-item {{ request()->routeIs('verifikasi') ? 'active' : '' }}">
-    <a href="{{ route('verifikasi.index') }}" class="nav-link d-flex align-items-center gap-2">
-        <i class="fa fa-check-circle"></i>
-        <span>Lapangan</span>
+<li class="nav-item {{ request()->routeIs('penerima') ? 'active' : '' }}">
+    <a href="{{ route('penerima_bantuan.index') }}" class="nav-link d-flex align-items-center gap-2">
+        <i class="fa fa-users"></i>
+        <span>Penerima</span>
     </a>
 </li>
+
+
 
 <li class="nav-item dropdown {{ request()->routeIs('warga') || request()->routeIs('users.*') || request()->routeIs('riwayat.*') ? 'active' : '' }}">
     <a href="#" class="nav-link dropdown-toggle d-flex align-items-center gap-2" data-bs-toggle="dropdown">
@@ -88,6 +90,13 @@
                 <i class="fa fa-user-shield"></i>
                 <span>Data Users</span>
             </a>
+        </li>
+
+        <li>
+         <a href="{{ route('verifikasi.index') }}" class="dropdown-item d-flex align-items-center gap-2">
+        <i class="fa fa-check-circle"></i>
+        <span>Lapangan</span>
+         </a>
         </li>
 
         <li>

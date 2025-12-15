@@ -1,7 +1,7 @@
 @extends('layouts2.guest.app')
 @section('content')
 
-<div class="container-fluid page-header mb-5 wow fadeIn" data-wow-delay="0.1s">
+<div class="container-fluid page-header wow fadeIn" data-wow-delay="0.1s">
     <div class="container text-center">
         <h1 class="display-4 text-white animated slideInDown mb-4">Program Bantuan</h1>
         <nav aria-label="breadcrumb animated slideInDown">
@@ -18,12 +18,6 @@
 
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h3 class="text-white fw-bold cosmic-title">
-                <i class="bi bi-stars me-2"></i> Data Program Bantuan
-            </h3>
-            <p class="text-light mb-0 opacity-75">Kelola program bantuan sosial dengan efektif</p>
-        </div>
         <a href="{{ route('program_bantuan.create') }}" class="btn btn-success fw-semibold shadow-lg btn-glow">
             <i class="bi bi-plus-circle me-1"></i> Tambah Program
         </a>
@@ -94,7 +88,7 @@
             } else {
                 $imgPath = 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=400&q=80';
             }
-            
+
             // Color based on year
             $yearColors = [
                 '2024' => '#ff6b6b',
@@ -105,23 +99,23 @@
             ];
             $borderColor = $yearColors[$p->tahun] ?? '#6c757d';
         @endphp
-        
+
         <div class="col-md-4">
             <div class="card border-0 shadow-lg h-100 card-3d"
                  style="border-radius:20px; overflow:hidden; border-left: 5px solid {{ $borderColor }};">
-                
+
                 {{-- Thumbnail Gambar --}}
                 <div style="height:200px; overflow:hidden; position: relative;">
                     <img src="{{ $imgPath }}" class="w-100 h-100 object-fit-cover card-image">
                     <div class="card-image-overlay"></div>
-                    
+
                     {{-- Year Badge --}}
                     <div class="position-absolute top-3 end-3">
                         <span class="badge year-badge px-3 py-2 fw-bold" style="background: {{ $borderColor }};">
                             <i class="bi bi-calendar-check me-1"></i> {{ $p->tahun }}
                         </span>
                     </div>
-                    
+
                     {{-- Kode Badge --}}
                     <div class="position-absolute bottom-3 start-3">
                         <span class="badge bg-dark bg-opacity-75 px-3 py-2">
@@ -131,12 +125,12 @@
                 </div>
 
                 <div class="card-body p-4 bg-space">
-                    
+
                     {{-- Program Title --}}
                     <h5 class="text-white fw-bold mb-3 program-title">
                         <i class="bi bi-journal-text me-2"></i> {{ $p->nama_program }}
                     </h5>
-                    
+
                     {{-- Anggaran Card --}}
                     <div class="budget-card mb-3 p-3 rounded-3">
                         <div class="d-flex align-items-center mb-1">
@@ -147,7 +141,7 @@
                             Rp{{ number_format($p->anggaran, 0, ',', '.') }}
                         </h4>
                     </div>
-                    
+
                     {{-- Deskripsi --}}
                     <div class="description-box p-3 rounded-3 mb-3">
                         <p class="text-light mb-0">
@@ -155,7 +149,7 @@
                             {{ \Illuminate\Support\Str::limit($p->deskripsi, 80) }}
                         </p>
                     </div>
-                    
+
                     {{-- Quick Stats --}}
                     <div class="row g-2 mb-3">
                         <div class="col-6">
@@ -189,19 +183,87 @@
                             </button>
                         </form>
                     </div>
-                    
+
                     {{-- Quick Actions --}}
                     <div class="text-center mt-3">
-                        <a href="#" class="text-info text-decoration-none me-3">
-                            <i class="bi bi-eye me-1"></i> Lihat Detail
-                        </a>
+    <a href="#" class="text-info text-decoration-none me-3"
+       data-bs-toggle="modal" data-bs-target="#modalDetail{{ $p->program_id }}">
+        <i class="bi bi-eye me-1"></i> Lihat Detail
+    </a>
+    <!-- Modal Detail -->
+<div class="modal fade" id="modalDetail{{ $p->program_id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content cosmic-bg" style="border-radius:20px; border:1px solid rgba(255,255,255,0.1);">
+
+            <div class="modal-header border-0">
+                <h5 class="modal-title text-white fw-bold">
+                    <i class="bi bi-eye-fill me-2 text-info"></i> Detail Program Bantuan
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-md-5 text-center">
+                        <img src="{{ $imgPath }}" class="img-fluid rounded shadow"
+                             style="max-height:220px; object-fit:cover;">
+                        
+                        <span class="badge mt-3 px-3 py-2 fw-bold"
+                              style="background: {{ $borderColor }};">
+                            <i class="bi bi-calendar-check me-1"></i> {{ $p->tahun }}
+                        </span>
+                    </div>
+
+                    <div class="col-md-7">
+
+                        <h4 class="text-white fw-bold mb-3">{{ $p->nama_program }}</h4>
+
+                        <p class="text-light mb-2">
+                            <i class="bi bi-hash me-2"></i>
+                            <b>Kode Program:</b> {{ $p->kode }}
+                        </p>
+
+                        <p class="text-light mb-2">
+                            <i class="bi bi-cash me-2 text-success"></i>
+                            <b>Anggaran:</b>
+                            Rp{{ number_format($p->anggaran, 0, ',', '.') }}
+                        </p>
+
+                        <p class="text-light mb-2">
+                            <i class="bi bi-clock-history me-2"></i>
+                            <b>Dibuat:</b> {{ $p->created_at->format('d M Y') }}
+                        </p>
+
+                        <p class="text-light mb-2">
+                            <i class="bi bi-clock me-2"></i>
+                            <b>Update Terakhir:</b> {{ $p->updated_at->diffForHumans() }}
+                        </p>
+
+                        <hr class="border-secondary">
+
+                        <p class="text-light">
+                            <b>Deskripsi:</b><br>
+                            {{ $p->deskripsi }}
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+           
+
+        </div>
+    </div>
+</div>
+
                         <a href="#" class="text-warning text-decoration-none">
                             <i class="bi bi-people me-1"></i> Pendaftar
                         </a>
                     </div>
 
                 </div>
-                
+
                 {{-- Card Footer --}}
                 <div class="card-footer bg-space border-top-0 text-center py-2">
                     <small class="text-muted">
@@ -257,7 +319,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: 
+    background:
         radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
         radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.1) 0%, transparent 50%),
         radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.1) 0%, transparent 50%);
@@ -276,7 +338,7 @@
 
 .card-3d:hover {
     transform: translateY(-15px) rotateX(5deg);
-    box-shadow: 
+    box-shadow:
         0 25px 50px rgba(0, 0, 0, 0.5),
         0 0 100px rgba(var(--bs-primary-rgb), 0.3) !important;
 }
@@ -441,6 +503,35 @@
     box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
 }
 
+/* ========================================= */
+/* FIX MODAL TIDAK BISA DITUTUP */
+/* ========================================= */
+
+.modal,
+.modal-backdrop {
+    z-index: 999999 !important;
+}
+
+body.modal-open .card-3d {
+    transform: none !important;
+}
+
+.modal.fade.show {
+    transform: none !important;
+}
+.modal-backdrop.show {
+    display: none !important;
+}
+
+.modal.show {
+    z-index: 2000000 !important;
+    position: fixed !important;
+}
+body.modal-open .card-3d {
+    pointer-events: none !important;
+}
+
+
 /* Animations */
 @keyframes badgeFloat {
     0%, 100% { transform: translateY(0); }
@@ -472,11 +563,11 @@
     .card-3d:hover {
         transform: translateY(-5px);
     }
-    
+
     .cosmic-bg {
         padding: 1.5rem !important;
     }
-    
+
     .program-title {
         font-size: 1.1rem;
     }
@@ -485,23 +576,24 @@
 .object-fit-cover {
     object-fit: cover;
 }
+
 </style>
 
 <script>
 // Add interactive effects
 document.addEventListener('DOMContentLoaded', function() {
     const cards = document.querySelectorAll('.card-3d');
-    
+
     cards.forEach(card => {
         card.addEventListener('mouseenter', () => {
             card.style.zIndex = '1000';
         });
-        
+
         card.addEventListener('mouseleave', () => {
             card.style.zIndex = '1';
         });
     });
-    
+
     // Add click effect to budget cards
     const budgetCards = document.querySelectorAll('.budget-card');
     budgetCards.forEach(card => {
@@ -514,5 +606,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+
 
 @endsection

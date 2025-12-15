@@ -1,7 +1,7 @@
 @extends('layouts2.guest.app')
 @section('content')
 
-<div class="container-fluid page-header mb-5 wow fadeIn" data-wow-delay="0.1s">
+<div class="container-fluid page-header wow fadeIn" data-wow-delay="0.1s">
     <div class="container text-center">
         <h1 class="display-4 text-white animated slideInDown mb-4 cosmic-title">Data Users</h1>
         <nav aria-label="breadcrumb animated slideInDown">
@@ -19,12 +19,6 @@
 
         {{-- HEADER --}}
         <div class="d-flex justify-content-between align-items-center mb-5">
-            <div>
-                <h2 class="text-white fw-bold cosmic-title">
-                    <i class="bi bi-people-fill me-3"></i> Data Users
-                </h2>
-                <p class="text-light mb-0 opacity-75">Kelola pengguna sistem dengan mudah</p>
-            </div>
             <a href="{{ route('users.create') }}" class="btn btn-success d-flex align-items-center px-4 py-3 btn-glow">
                 <i class="bi bi-plus-circle me-2 fs-5"></i> Tambah User
             </a>
@@ -46,7 +40,7 @@
                                        class="form-control bg-space text-white border-space search-input-glow"
                                        placeholder="Cari nama / email..."
                                        value="{{ request('search') }}">
-                                
+
                                 @if(request('search'))
                                     <a href="{{ request()->fullUrlWithQuery(['search' => null, 'page' => null]) }}"
                                        class="input-group-text bg-space text-danger border-space">
@@ -140,10 +134,10 @@
             @forelse($users as $user)
                 <div class="col-md-6 col-lg-4">
                     <div class="card border-0 shadow-lg h-100 rounded-4 card-3d user-card">
-                        
+
                         {{-- Top Gradient Border --}}
                         <div class="position-absolute top-0 start-0 w-100 user-gradient-border"
-                             style="height: 8px; background: linear-gradient(90deg, 
+                             style="height: 8px; background: linear-gradient(90deg,
                                  {{ $user->role == 'admin' ? '#ff6b6b, #ffa502' : '#00b894, #0984e3' }});">
                         </div>
 
@@ -164,7 +158,7 @@
                                             </div>
                                         @endif
                                     </div>
-                                    <div class="position-absolute bottom-0 end-0 status-indicator 
+                                    <div class="position-absolute bottom-0 end-0 status-indicator
                                         {{ $user->role == 'admin' ? 'bg-danger' : 'bg-success' }}">
                                     </div>
                                 </div>
@@ -183,7 +177,7 @@
                                             {{ strtoupper($user->role) }}
                                         </span>
                                     </div>
-                                    
+
                                     {{-- User Stats --}}
                                     <div class="row mt-3 g-2">
                                         <div class="col-6">
@@ -234,9 +228,85 @@
                             {{-- Quick Actions --}}
                             <div class="text-center mt-3">
                                 <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-outline-light btn-sm px-3">
-                                        <i class="bi bi-key"></i> Reset
-                                    </button>
+                                    <button type="button"
+        class="btn btn-outline-light btn-sm px-3"
+        data-bs-toggle="modal"
+        data-bs-target="#modalDetail{{ $user->id }}">
+    <i class="bi bi-key"></i> Detail
+</button>
+<!-- Modal Detail User -->
+<div class="modal fade" id="modalDetail{{ $user->id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content cosmic-bg" style="border-radius:20px; border:1px solid rgba(255,255,255,0.1);">
+
+            <div class="modal-header border-0">
+                <h5 class="modal-title text-white fw-bold">
+                    <i class="bi bi-person-vcard me-2 text-info"></i> Detail User
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-md-5 text-center">
+                        <div class="avatar-wrapper rounded shadow mb-3"
+                             style="width:180px; height:180px; margin:auto; overflow:hidden;">
+                            @if($user->media->count() && Str::startsWith($user->media->first()->mime_type, 'image'))
+                                <img src="{{ asset('storage/'.$user->media->first()->file_name) }}"
+                                     class="w-50 h-50 object-fit-cover rounded">
+                            @else
+                                <div class="w-100 h-100 d-flex align-items-center justify-content-center"
+                                     style="background:#444; color:#fff; font-size:3rem;">
+                                    {{ strtoupper(substr($user->name, 0, 1)) }}
+                                </div>
+                            @endif
+                        </div>
+
+                        <span class="badge px-3 py-2 fw-bold"
+                              style="background: {{ $user->role == 'admin' ? '#ff6b6b' : '#00b894' }};">
+                            <i class="bi bi-shield-check"></i> {{ strtoupper($user->role) }}
+                        </span>
+                    </div>
+
+                    <div class="col-md-7">
+                        <h4 class="text-white fw-bold mb-3">{{ $user->name }}</h4>
+
+                        <p class="text-light mb-2">
+                            <i class="bi bi-envelope me-2"></i>
+                            <b>Email:</b> {{ $user->email }}
+                        </p>
+
+                        <p class="text-light mb-2">
+                            <i class="bi bi-person-badge me-2"></i>
+                            <b>Role:</b> {{ $user->role }}
+                        </p>
+
+                        <p class="text-light mb-2">
+                            <i class="bi bi-clock-history me-2"></i>
+                            <b>Dibuat:</b> {{ $user->created_at->format('d M Y') }}
+                        </p>
+
+                        <p class="text-light mb-2">
+                            <i class="bi bi-clock me-2"></i>
+                            <b>Update Terakhir:</b> {{ $user->updated_at->diffForHumans() }}
+                        </p>
+
+                        <hr class="border-secondary">
+
+                        <p class="text-light">
+                            <b>Deskripsi Singkat:</b><br>
+                            Tidak ada deskripsi untuk user ini.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
                                     <button type="button" class="btn btn-outline-light btn-sm px-3">
                                         <i class="bi bi-chat"></i> Message
                                     </button>
@@ -246,7 +316,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         {{-- Card Footer --}}
                         <div class="card-footer bg-space border-top-0 text-center py-3">
                             <small class="text-muted">
@@ -300,7 +370,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: 
+    background:
         radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
         radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.1) 0%, transparent 50%),
         radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.1) 0%, transparent 50%);
@@ -319,7 +389,7 @@
 
 .card-3d:hover {
     transform: translateY(-15px) rotateX(5deg);
-    box-shadow: 
+    box-shadow:
         0 25px 50px rgba(0, 0, 0, 0.5),
         0 0 100px rgba(var(--bs-primary-rgb), 0.3) !important;
 }
@@ -495,6 +565,37 @@
     box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
 }
 
+/* ========================================= */
+/* FIX MODAL TIDAK BISA DITUTUP */
+/* ========================================= */
+
+.modal,
+.modal-backdrop {
+    z-index: 999999 !important;
+}
+
+body.modal-open .card-3d {
+    transform: none !important;
+}
+
+.modal.fade.show {
+    transform: none !important;
+}
+.modal-backdrop.show {
+    display: none !important;
+}
+
+.modal.show {
+    z-index: 2000000 !important;
+    position: fixed !important;
+}
+body.modal-open .card-3d {
+    pointer-events: none !important;
+}
+.modal .avatar-wrapper {
+    border: none !important;
+}
+
 /* Animations */
 @keyframes badgeFloat {
     0%, 100% { transform: translateY(0); }
@@ -526,11 +627,11 @@
     .card-3d:hover {
         transform: translateY(-5px);
     }
-    
+
     .stats-card-2 {
         padding: 1.5rem !important;
     }
-    
+
     .avatar-wrapper {
         width: 60px !important;
         height: 60px !important;
@@ -546,17 +647,17 @@
 // Add interactive effects
 document.addEventListener('DOMContentLoaded', function() {
     const cards = document.querySelectorAll('.user-card');
-    
+
     cards.forEach(card => {
         card.addEventListener('mouseenter', () => {
             card.style.zIndex = '1000';
         });
-        
+
         card.addEventListener('mouseleave', () => {
             card.style.zIndex = '1';
         });
     });
-    
+
     // Add click animation to stats cards
     const statCards = document.querySelectorAll('.user-stat');
     statCards.forEach(card => {
@@ -567,14 +668,14 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 150);
         });
     });
-    
+
     // Add hover sound effect to buttons
     const buttons = document.querySelectorAll('.btn-glow');
     buttons.forEach(button => {
         button.addEventListener('mouseenter', () => {
             button.style.transform = 'scale(1.05)';
         });
-        
+
         button.addEventListener('mouseleave', () => {
             button.style.transform = 'scale(1)';
         });

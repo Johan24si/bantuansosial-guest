@@ -1,7 +1,7 @@
 @extends('layouts2.guest.app')
 @section('content')
 
-<div class="container-fluid page-header mb-5 wow fadeIn" data-wow-delay="0.1s">
+<div class="container-fluid page-header wow fadeIn" data-wow-delay="0.1s">
     <div class="container text-center">
         <h1 class="display-4 text-white animated slideInDown mb-4 cosmic-title">Data Warga</h1>
         <nav aria-label="breadcrumb animated slideInDown">
@@ -46,7 +46,7 @@
                                        class="form-control bg-space text-white border-space search-input-glow"
                                        placeholder="Cari nama / NIK..."
                                        value="{{ request('search') }}">
-                                
+
                                 @if(request('search'))
                                     <a href="{{ request()->fullUrlWithQuery(['search' => null, 'page' => null]) }}"
                                        class="input-group-text bg-space text-danger border-space">
@@ -154,10 +154,10 @@
                 <div class="col-md-6 col-lg-4">
                     <div class="card border-0 shadow-lg h-100 rounded-4 card-3d warga-card"
                          style="border-left: 5px solid {{ $w->jenis_kelamin == 'L' ? '#3498db' : '#e74c3c' }};">
-                        
+
                         {{-- Top Gradient Border --}}
                         <div class="position-absolute top-0 start-0 w-100 warga-gradient-border"
-                             style="height: 8px; background: linear-gradient(90deg, 
+                             style="height: 8px; background: linear-gradient(90deg,
                                  {{ $w->jenis_kelamin == 'L' ? '#3498db, #2980b9' : '#e74c3c, #c0392b' }});">
                         </div>
 
@@ -174,7 +174,7 @@
                                             </span>
                                         </div>
                                     </div>
-                                    <div class="position-absolute bottom-0 end-0 gender-indicator 
+                                    <div class="position-absolute bottom-0 end-0 gender-indicator
                                         {{ $w->jenis_kelamin == 'L' ? 'bg-info' : 'bg-danger' }}">
                                         <i class="bi {{ $w->jenis_kelamin == 'L' ? 'bi-gender-male' : 'bi-gender-female' }} text-white"></i>
                                     </div>
@@ -200,16 +200,16 @@
                                             </span>
                                         @endif
                                     </div>
-                                    
+
                                     {{-- Contact Info --}}
                                     <div class="mt-3">
                                         <p class="text-light mb-1">
-                                            <i class="bi bi-telephone me-2"></i> 
+                                            <i class="bi bi-telephone me-2"></i>
                                             <span class="contact-info">{{ $w->telp }}</span>
                                         </p>
                                         @if($w->email)
                                             <p class="text-light mb-0">
-                                                <i class="bi bi-envelope me-2"></i> 
+                                                <i class="bi bi-envelope me-2"></i>
                                                 <span class="contact-info">{{ $w->email }}</span>
                                             </p>
                                         @endif
@@ -268,9 +268,96 @@
                             {{-- Quick Actions --}}
                             <div class="text-center mt-3">
                                 <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-outline-light btn-sm px-3">
-                                        <i class="bi bi-card-text"></i> Detail
-                                    </button>
+                                    <button type="button" class="btn btn-outline-light btn-sm px-3"
+data-bs-toggle="modal" data-bs-target="#modalDetail{{ $w->warga_id }}">
+<i class="bi bi-card-text"></i> Detail
+</button>
+
+
+<!-- Modal Detail Warga -->
+<div class="modal fade" id="modalDetail{{ $w->warga_id }}" tabindex="-1" aria-hidden="true">
+<div class="modal-dialog modal-lg modal-dialog-centered">
+<div class="modal-content cosmic-bg" style="border-radius:20px; border:1px solid rgba(255,255,255,0.1);">
+
+
+<div class="modal-header border-0">
+<h5 class="modal-title text-white fw-bold">
+<i class="bi bi-eye-fill me-2 text-info"></i> Detail Data Warga
+</h5>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+</div>
+
+
+<div class="modal-body">
+<div class="row">
+<div class="col-md-5 text-center">
+<div class="rounded-circle overflow-hidden shadow mx-auto"
+style="width:180px; height:180px; background:#222; display:flex; align-items:center; justify-content:center;">
+<span class="text-white fw-bold" style="font-size:5rem;">
+{{ strtoupper(substr($w->nama, 0, 1)) }}
+</span>
+</div>
+
+
+<span class="badge mt-3 px-3 py-2 fw-bold"
+style="background: {{ $w->jenis_kelamin == 'L' ? '#3498db' : '#e74c3c' }};">
+<i class="bi bi-gender-ambiguous me-1"></i>
+{{ $w->jenis_kelamin == 'L' ? 'Laki-laki' : 'Perempuan' }}
+</span>
+</div>
+
+
+<div class="col-md-7">
+<h4 class="text-white fw-bold mb-3">{{ $w->nama }}</h4>
+
+
+<p class="text-light mb-2">
+<i class="bi bi-person-vcard me-2"></i>
+<b>NIK:</b> {{ $w->no_ktp }}
+</p>
+
+
+<p class="text-light mb-2">
+<i class="bi bi-telephone me-2 text-info"></i>
+<b>Telp:</b> {{ $w->telp }}
+</p>
+
+
+@if($w->email)
+<p class="text-light mb-2">
+<i class="bi bi-envelope me-2 text-warning"></i>
+<b>Email:</b> {{ $w->email }}
+</p>
+@endif
+
+
+<p class="text-light mb-2">
+<i class="bi bi-calendar-heart me-2"></i>
+<b>Tanggal Lahir:</b> {{ $w->tanggal_lahir }}
+</p>
+
+
+<p class="text-light mb-2">
+<i class="bi bi-hash me-2"></i>
+<b>ID Warga:</b> #{{ $w->warga_id }}
+</p>
+
+
+<hr class="border-secondary">
+
+
+<p class="text-light">
+<b>Alamat:</b><br>
+{{ $w->alamat }}
+</p>
+</div>
+</div>
+</div>
+
+
+</div>
+</div>
+</div>
                                     <button type="button" class="btn btn-outline-light btn-sm px-3">
                                         <i class="bi bi-file-earmark-pdf"></i> Export
                                     </button>
@@ -280,7 +367,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         {{-- Card Footer --}}
                         <div class="card-footer bg-space border-top-0 text-center py-3">
                             <small class="text-muted">
@@ -336,7 +423,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: 
+    background:
         radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
         radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.1) 0%, transparent 50%),
         radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.1) 0%, transparent 50%);
@@ -356,7 +443,7 @@
 
 .card-3d:hover {
     transform: translateY(-15px) rotateX(5deg);
-    box-shadow: 
+    box-shadow:
         0 25px 50px rgba(0, 0, 0, 0.5),
         0 0 100px rgba(var(--bs-primary-rgb), 0.3) !important;
 }
@@ -541,6 +628,34 @@
     box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
 }
 
+/* ========================================= */
+/* FIX MODAL TIDAK BISA DITUTUP */
+/* ========================================= */
+
+.modal,
+.modal-backdrop {
+    z-index: 999999 !important;
+}
+
+body.modal-open .card-3d {
+    transform: none !important;
+}
+
+.modal.fade.show {
+    transform: none !important;
+}
+.modal-backdrop.show {
+    display: none !important;
+}
+
+.modal.show {
+    z-index: 2000000 !important;
+    position: fixed !important;
+}
+body.modal-open .card-3d {
+    pointer-events: none !important;
+}
+
 /* Animations */
 @keyframes badgeFloat {
     0%, 100% { transform: translateY(0); }
@@ -572,16 +687,16 @@
     .card-3d:hover {
         transform: translateY(-5px);
     }
-    
+
     .stats-card-2 {
         padding: 1.5rem !important;
     }
-    
+
     .avatar-wrapper {
         width: 60px !important;
         height: 60px !important;
     }
-    
+
     .warga-stat {
         padding: 0.5rem !important;
     }
@@ -592,17 +707,17 @@
 // Add interactive effects
 document.addEventListener('DOMContentLoaded', function() {
     const cards = document.querySelectorAll('.warga-card');
-    
+
     cards.forEach(card => {
         card.addEventListener('mouseenter', () => {
             card.style.zIndex = '1000';
         });
-        
+
         card.addEventListener('mouseleave', () => {
             card.style.zIndex = '1';
         });
     });
-    
+
     // Add click animation to contact info
     const contactInfos = document.querySelectorAll('.contact-info');
     contactInfos.forEach(info => {
@@ -614,14 +729,14 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-    
+
     // Add hover effect to address box
     const addressBoxes = document.querySelectorAll('.address-box');
     addressBoxes.forEach(box => {
         box.addEventListener('mouseenter', () => {
             box.style.transform = 'translateX(5px)';
         });
-        
+
         box.addEventListener('mouseleave', () => {
             box.style.transform = 'translateX(0)';
         });

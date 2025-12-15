@@ -44,44 +44,70 @@ class PendaftarBantuanController extends Controller
         return view('guest.daftar.create', compact('programs'));
     }
 
-    public function store(Request $request)
+     public function store(Request $request)
     {
-        $request->validate([
-            'program_id'     => 'required|numeric',
-            'warga_id'       => 'required|numeric',
-            'status_seleksi' => 'nullable|string',
-            'media.*'        => 'nullable|file|mimes:jpg,jpeg,png,webp,mp4,pdf|max:5120',
+        $validated = $request->validate([
+            'program_id' => 'required',
+            'warga_id'   => 'required',
+            'status_seleksi' => 'required',
+            'foto' => 'nullable|image|max:2048'
         ]);
 
-        if ($request->status_seleksi == "ditolak") {
-            $request['status_seleksi'] = "TidakLulus";
+        // Upload foto
+        if ($request->hasFile('foto')) {
+            $path = $request->file('foto')->store('pendaftar', 'public');
+        } else {
+            // Default JPG
+            $path = 'default/pendaftar-default.jpg';
         }
 
-        // SIMPAN PENDAFTAR
-        $pendaftar = PendaftarBantuan::create($request->only([
-            'program_id',
-            'warga_id',
-            'status_seleksi',
-        ]));
+        // Simpan data pendaftar
+        $pendaftar = PendaftarBantuan::create([
+            'program_id' => $request->program_id,
+            'warga_id' => $request->warga_id,
+            'status_seleksi' => $request->status_seleksi,
+        ]);
 
-        // UPLOAD MEDIA
-        if ($request->hasFile('media')) {
-            foreach ($request->file('media') as $index => $file) {
+        // Simpan file ke tabel media (relasi)
+        $pendaftar->media()->create([
+            'file_name' => $path
+        ]);
 
-                $path = $file->store('uploads/pendaftar_bantuan', 'public');
+        return redirect()->back()->with('success', 'Pendaftar berhasil ditambahkan!');
+    }
 
-                Media::create([
-                    'ref_table'  => 'pendaftar_bantuan',
-                    'ref_id'     => $pendaftar->pendaftar_id,
-                    'file_name'  => $path,
-                    'mime_type'  => $file->getClientMimeType(),
-                    'caption'    => null,
-                    'sort_order' => $index,
-                ]);
-            }
+    public function update(Request $request, $id)
+    {
+        $pendaftar = PendaftarBantuan::findOrFail($id);
+
+        $validated = $request->validate([
+            'program_id' => 'required',
+            'warga_id'   => 'required',
+            'status_seleksi' => 'required',
+            'foto' => 'nullable|image|max:2048'
+        ]);
+
+        // Jika upload foto baru
+        if ($request->hasFile('foto')) {
+            $path = $request->file('foto')->store('pendaftar', 'public');
+        } else {
+            // Ambil foto lama / default
+            $path = $pendaftar->media->first()->file_name ?? 'default/pendaftar-default.jpg';
         }
 
-        return redirect()->route('index')->with('success', 'Data berhasil ditambahkan!');
+        $pendaftar->update([
+            'program_id' => $request->program_id,
+            'warga_id' => $request->warga_id,
+            'status_seleksi' => $request->status_seleksi,
+        ]);
+
+        // Update media
+        $pendaftar->media()->updateOrCreate(
+            [],
+            ['file_name' => $path]
+        );
+
+        return redirect()->back()->with('success', 'Pendaftar berhasil diperbarui!');
     }
 
     public function edit($id)
@@ -91,45 +117,7 @@ class PendaftarBantuanController extends Controller
         return view('guest.daftar.edit', compact('data', 'programs'));
     }
 
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'program_id'     => 'required|numeric',
-            'warga_id'       => 'required|numeric',
-            'status_seleksi' => 'nullable|string',
-            'media.*'        => 'nullable|file|mimes:jpg,jpeg,png,webp,mp4,pdf|max:5120',
-        ]);
-
-        if ($request->status_seleksi == "ditolak") {
-            $request['status_seleksi'] = "TidakLulus";
-        }
-
-        $pendaftar = PendaftarBantuan::findOrFail($id);
-        $pendaftar->update($request->only([
-            'program_id',
-            'warga_id',
-            'status_seleksi'
-        ]));
-
-        // UPLOAD MEDIA TAMBAHAN
-        if ($request->hasFile('media')) {
-            foreach ($request->file('media') as $index => $file) {
-
-                $path = $file->store('uploads/pendaftar_bantuan', 'public');
-
-                Media::create([
-                    'ref_table'  => 'pendaftar_bantuan',
-                    'ref_id'     => $pendaftar->pendaftar_id,
-                    'file_name'  => $path,
-                    'mime_type'  => $file->getClientMimeType(),
-                    'caption'    => null,
-                    'sort_order' => $index,
-                ]);
-            }
-        }
-
-        return redirect()->route('index')->with('success', 'Data berhasil diperbarui!');
-    }
+   
 
     public function destroy($id)
     {

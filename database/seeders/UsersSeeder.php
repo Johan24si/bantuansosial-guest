@@ -11,7 +11,8 @@ class UsersSeeder extends Seeder
 {
     public function run()
     {
-        $faker = \Faker\Factory::create();
+        // Locale Indonesia
+        $faker = \Faker\Factory::create('id_ID');
 
         foreach (range(1, 100) as $index) {
             DB::table('users')->insert([
@@ -19,7 +20,7 @@ class UsersSeeder extends Seeder
                 'email'             => $faker->unique()->safeEmail,
                 'email_verified_at' => now(),
                 'password'          => Hash::make('123456789'),
-                'role'              => $faker->randomElement(['admin', 'user']), // WAJIB ditambah
+                'role'              => $faker->randomElement(['admin', 'user']),
                 'remember_token'    => Str::random(10),
                 'created_at'        => now(),
                 'updated_at'        => now(),

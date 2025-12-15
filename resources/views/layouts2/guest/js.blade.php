@@ -9,3 +9,10 @@
 
     <!-- Template Javascript -->
     <script src="{{asset('assets/js/main.js')}}"></script>
+<script>
+    document.addEventListener('hidden.bs.modal', function () {
+        document.querySelectorAll('.modal-backdrop').forEach(e => e.remove());
+        document.body.classList.remove('modal-open');
+        document.body.style.overflow = 'auto';
+    });
+</script>
