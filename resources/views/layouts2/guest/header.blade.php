@@ -20,7 +20,7 @@
 
          <a href="{{ route('home') }}" class="navbar-brand ms-4 ms-lg-0 d-flex align-items-center">
 
-        <img src="{{ asset('assets/img/logoo.png') }}"
+        <img src="{{ asset('assets/img/logo.png') }}"
              alt="Logo"
              style="height: 70px; width: auto;" class="me-2">
 
@@ -93,14 +93,14 @@
         </li>
 
         <li>
-         <a href="{{ route('verifikasi.index') }}" class="dropdown-item d-flex align-items-center gap-2">
+         <a href="{{ route('pages.verifikasi.index') }}" class="dropdown-item d-flex align-items-center gap-2">
         <i class="fa fa-check-circle"></i>
         <span>Lapangan</span>
          </a>
         </li>
 
         <li>
-            <a href="{{ route('riwayat.index') }}" class="dropdown-item d-flex align-items-center gap-2">
+            <a href="{{ route('riwayat_penyaluran.index') }}" class="dropdown-item d-flex align-items-center gap-2">
                 <i class="fa fa-history"></i>
                 <span>Riwayat Penyaluran</span>
             </a>

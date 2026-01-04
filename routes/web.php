@@ -7,6 +7,8 @@ use App\Http\Controllers\DataWargaController;
 use App\Http\Controllers\ProgramBantuanController;
 use App\Http\Controllers\PenerimaBantuanController;
 use App\Http\Controllers\PendaftarBantuanController;
+use App\Http\Controllers\RiwayatPenyaluranController;
+use App\Http\Controllers\VerifikasiLapanganController;
 
 // Route login
 Route::get('/auth', [AuthController::class, 'index']);
@@ -21,7 +23,7 @@ Route::get('/index', [PendaftarBantuanController::class, 'index'])->name('index'
 Route::get('/create', [PendaftarBantuanController::class, 'create'])->name('create');
 Route::post('/store', [PendaftarBantuanController::class, 'store'])->name('store');
 Route::get('/edit/{id}', [PendaftarBantuanController::class, 'edit'])->name('edit');
-Route::post('/update/{id}', [PendaftarBantuanController::class, 'update'])->name('update');
+Route::put('/update/{id}', [PendaftarBantuanController::class, 'update'])->name('update');
 Route::delete('/delete/{id}', [PendaftarBantuanController::class, 'destroy'])->name('delete');
 
 // ===============================
@@ -140,12 +142,9 @@ Route::middleware(['checkislogin'])->group(function () {
     // Verifikasi
     Route::get('/verifikasi', function () {
         return view('verifikasi.index');
-    })->name('verifikasi.index')->middleware('checkrole:admin');
+    })->name('verifikasi.index');
 
     // Riwayat
-    Route::get('/riwayat', function () {
-        return view('riwayat.index');
-    })->name('riwayat.index')->middleware('checkrole:admin');
 
     // Penerima
     Route::get('/penerima', function () {
@@ -182,4 +181,58 @@ Route::put('/penerima_bantuan/update/{id}', [PenerimaBantuanController::class, '
 
 Route::delete('/penerima_bantuan/delete/{id}', [PenerimaBantuanController::class, 'destroy'])
     ->name('penerima_bantuan.destroy')
+    ->middleware('checkrole:admin');
+
+    //verifikasi lapangan
+    Route::get('/verifikasi', [VerifikasiLapanganController::class, 'index'])
+    ->name('pages.verifikasi.index');
+   
+
+Route::get('/verifikasi/create', [VerifikasiLapanganController::class, 'create'])
+    ->name('verifikasi.create')
+    ->middleware('checkrole:admin');
+
+Route::post('/verifikasi/store', [VerifikasiLapanganController::class, 'store'])
+    ->name('verifikasi.store')
+    ->middleware('checkrole:admin');
+
+Route::get('/verifikasi/edit/{id}', [VerifikasiLapanganController::class, 'edit'])
+    ->name('verifikasi.edit')
+    ->middleware('checkrole:admin');
+
+Route::put('/verifikasi/update/{id}', [VerifikasiLapanganController::class, 'update'])
+    ->name('verifikasi.update')
+    ->middleware('checkrole:admin');
+Route::delete('/verifikasi/delete/{id}', [VerifikasiLapanganController::class, 'destroy'])
+    ->name('verifikasi.destroy')
+    ->middleware('checkrole:admin');
+
+
+//riwayat penyaluran - URUTKAN DARI KHUSUS KE UMUM
+Route::delete('riwayat_penyaluran/{id}/media/{media_id}', [RiwayatPenyaluranController::class, 'deleteMedia'])
+    ->name('riwayat_penyaluran.deleteMedia')
+    ->middleware('checkrole:admin');
+
+// Route lainnya (pastikan ini SETELAH route di atas)
+Route::get('/riwayat-penyaluran', [RiwayatPenyaluranController::class, 'index'])
+    ->name('riwayat_penyaluran.index');
+
+Route::get('/riwayat-penyaluran/create', [RiwayatPenyaluranController::class, 'create'])
+    ->name('riwayat_penyaluran.create')
+    ->middleware('checkrole:admin');
+
+Route::post('/riwayat-penyaluran/store', [RiwayatPenyaluranController::class, 'store'])
+    ->name('riwayat_penyaluran.store')
+    ->middleware('checkrole:admin');
+
+Route::get('/riwayat-penyaluran/edit/{id}', [RiwayatPenyaluranController::class, 'edit'])
+    ->name('riwayat_penyaluran.edit')
+    ->middleware('checkrole:admin');
+
+Route::put('/riwayat-penyaluran/update/{id}', [RiwayatPenyaluranController::class, 'update'])
+    ->name('riwayat_penyaluran.update')
+    ->middleware('checkrole:admin');
+
+Route::delete('/riwayat-penyaluran/delete/{id}', [RiwayatPenyaluranController::class, 'destroy'])
+    ->name('riwayat_penyaluran.destroy')
     ->middleware('checkrole:admin');
