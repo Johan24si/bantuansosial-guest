@@ -19,8 +19,8 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, 
-                        rgba(0,0,0,0.85) 0%, 
+            background: linear-gradient(135deg,
+                        rgba(0,0,0,0.85) 0%,
                         rgba(241,90,41,0.2) 100%),
                         url('https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=1600&q=80')
                         no-repeat center center/cover;
@@ -431,7 +431,7 @@
             transition: opacity 0.4s ease, transform 0.4s ease;
         }
 
-        .hidden { 
+        .hidden {
             display: none;
             opacity: 0;
             transform: translateX(20px);
@@ -514,38 +514,38 @@
                 width: 100%;
                 max-width: 400px;
             }
-            
+
             .form-container {
                 padding: 25px;
             }
-            
+
             .header {
                 padding: 20px 25px 10px;
             }
-            
+
             .logo-circle {
                 width: 50px;
                 height: 50px;
             }
-            
+
             .logo-circle i {
                 font-size: 24px;
             }
-            
+
             .brand {
                 font-size: 24px;
             }
-            
+
             .remember-forgot {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 10px;
             }
-            
+
             .social-login {
                 gap: 12px;
             }
-            
+
             .social-btn {
                 padding: 14px;
                 font-size: 14px;
@@ -565,7 +565,7 @@
          class="me-2">
 
 </div>
-      
+
     </div>
 
     <!-- Tabs -->
@@ -584,15 +584,15 @@
             @endif
 
             <h2>Welcome Back</h2>
-            
+
             <div class="input-group">
                 <i class="fas fa-envelope"></i>
-                <input type="email" name="email" placeholder="Email Address" required>
+                <input type="text" name="text" placeholder="Email Address" required>
             </div>
 
             <div class="input-group">
                 <i class="fas fa-lock"></i>
-                <input type="password" name="password" placeholder="Password" required>
+                <input type="text" name="text" placeholder="Password" required>
             </div>
 
             <div class="remember-forgot">
@@ -677,17 +677,17 @@
             <h3 class="modal-title">Reset Password</h3>
             <button class="close-modal" id="closeModal">&times;</button>
         </div>
-        
+
         <p class="modal-instructions">Enter your email address and we'll send you a link to reset your password.</p>
-        
+
         <form id="forgotPasswordForm">
             <div class="input-group">
                 <i class="fas fa-envelope"></i>
                 <input type="email" id="resetEmail" placeholder="Email Address" required>
             </div>
-            
+
             <div id="resetMessage" class="hidden"></div>
-            
+
             <button type="submit" class="btn-submit">
                 <i class="fas fa-paper-plane" style="margin-right: 8px;"></i> Send Reset Link
             </button>
@@ -714,10 +714,10 @@
     function switchToLogin() {
         loginTab.classList.add('active');
         registerTab.classList.remove('active');
-        
+
         // Sembunyikan register form dengan animasi
         registerForm.classList.add('hidden');
-        
+
         // Tunggu sebentar untuk transisi, lalu tampilkan login form
         setTimeout(() => {
             loginForm.classList.remove('hidden');
@@ -727,10 +727,10 @@
     function switchToRegister() {
         registerTab.classList.add('active');
         loginTab.classList.remove('active');
-        
+
         // Sembunyikan login form dengan animasi
         loginForm.classList.add('hidden');
-        
+
         // Tunggu sebentar untuk transisi, lalu tampilkan register form
         setTimeout(() => {
             registerForm.classList.remove('hidden');
@@ -768,23 +768,23 @@
     forgotPasswordForm.addEventListener('submit', function(e) {
         e.preventDefault();
         const email = document.getElementById('resetEmail').value;
-        
+
         // Simulasi pengiriman email reset password
         // Dalam implementasi nyata, ini akan mengirim request ke backend
-        
+
         resetMessage.classList.remove('hidden');
         resetMessage.classList.remove('error-msg');
         resetMessage.classList.remove('success-msg');
-        
+
         if (email && email.includes('@')) {
             resetMessage.textContent = `Reset link has been sent to ${email}. Please check your email.`;
             resetMessage.classList.add('success-msg');
-            
+
             // Reset form setelah 3 detik dan tutup modal setelah 5 detik
             setTimeout(() => {
                 forgotPasswordForm.reset();
             }, 3000);
-            
+
             setTimeout(() => {
                 forgotPasswordModal.style.display = 'none';
                 resetMessage.classList.add('hidden');
@@ -823,7 +823,7 @@
         input.addEventListener('focus', function() {
             this.parentElement.classList.add('focus');
         });
-        
+
         input.addEventListener('blur', function() {
             this.parentElement.classList.remove('focus');
         });
@@ -834,7 +834,7 @@
         btn.addEventListener('mouseenter', function() {
             this.style.transform = 'translateY(-3px)';
         });
-        
+
         btn.addEventListener('mouseleave', function() {
             this.style.transform = 'translateY(0)';
         });
