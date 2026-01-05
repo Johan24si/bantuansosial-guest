@@ -587,12 +587,12 @@
 
             <div class="input-group">
                 <i class="fas fa-envelope"></i>
-                <input type="text" name="text" placeholder="username" required>
+                <input type="text" name="text"  required>
             </div>
 
             <div class="input-group">
                 <i class="fas fa-lock"></i>
-                <input type="text" name="text" placeholder="Password" required>
+                <input type="text" name="text"  required>
             </div>
 
             <div class="remember-forgot">
