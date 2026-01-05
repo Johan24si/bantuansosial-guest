@@ -587,7 +587,7 @@
 
             <div class="input-group">
                 <i class="fas fa-envelope"></i>
-                <input type="text" name="text" placeholder="Email Address" required>
+                <input type="text" name="text" placeholder="username" required>
             </div>
 
             <div class="input-group">

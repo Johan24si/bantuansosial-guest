@@ -12,7 +12,7 @@ class UserSeeder extends Seeder
         // Buat 1 user khusus
         User::create([
             'name'  => 'fmi',
-            'email' => 'fni',
+            'email' => 'test@gmail.com',
             'role'  => 'admin', // wajib disesuaikan dengan model
         ]);
 
